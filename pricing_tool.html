@@ -1065,16 +1065,16 @@ function calculateNetToYou(marketValue, totalCosts) {
 
 
 // Function to show seller offer modal
-function showSellerOfferModal() {
-    const modalElement = document.getElementById('sellerOfferModal');
-    if (modalElement) {
-        const sellerOfferModal = new bootstrap.Modal(modalElement);
-        sellerOfferModal.show();
-    } else {
-        console.error('Seller offer modal element not found');
-        showErrorMessage('Unable to display the offer. Please try again.');
-    }
-}
+// function showSellerOfferModal() {
+//     const modalElement = document.getElementById('sellerOfferModal');
+//     if (modalElement) {
+//         const sellerOfferModal = new bootstrap.Modal(modalElement);
+//         sellerOfferModal.show();
+//     } else {
+//         console.error('Seller offer modal element not found');
+//         showErrorMessage('Unable to display the offer. Please try again.');
+//     }
+// }
 
 // Function to show error message
 function showErrorMessage(message) {
@@ -1111,11 +1111,18 @@ function setupPDFDownloadListeners() {
     document.getElementById('downloadAgentOffer').addEventListener('click', function() {
         generateBuyingAgentPDF();
     });
+
+    // Email listeners
+    document.getElementById('emailWholesaleOfferLetter').addEventListener('click', function() {
+        sendOfferLetterEmail('Wholesale');
+    });
+
+    document.getElementById('emailRetailOfferLetter').addEventListener('click', function() {
+        sendOfferLetterEmail('Retail');
+    });
 }
 
-
-// Offer options event listeners
-
+// Trigger modal for offer options
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('viewBuyingAgentOffer').addEventListener('click', function() {
         var agentOfferModal = new bootstrap.Modal(document.getElementById('agentOfferModal'));
@@ -1127,22 +1134,10 @@ document.addEventListener('DOMContentLoaded', function() {
         sellerOfferModal.show();
     });
 
-    document.getElementById('downloadWholesaleOfferLetter').addEventListener('click', function() {
-        generateOfferLetterPDF('Wholesale');
-    });
-
-    document.getElementById('downloadRetailOfferLetter').addEventListener('click', function() {
-        generateOfferLetterPDF('Retail');
-    });
-
-    document.getElementById('emailWholesaleOfferLetter').addEventListener('click', function() {
-        sendOfferLetterEmail('Wholesale');
-    });
-
-    document.getElementById('emailRetailOfferLetter').addEventListener('click', function() {
-        sendOfferLetterEmail('Retail');
-    });
+    // Initialize listeners for downloads and email
+    setupPDFDownloadListeners();
 });
+
 
 async function generatePDF(type) {
     console.log(`Generating ${type} PDF`);
