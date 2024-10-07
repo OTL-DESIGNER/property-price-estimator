@@ -1532,12 +1532,12 @@ async function sendOfferLetterEmail(type) {
 
         // Send the email by making a POST request to the sendEmail function
         const response = await fetch('/.netlify/functions/sendEmail', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(emailData)
-        });
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(emailData)
+});
 
         const result = await response.json();
 
