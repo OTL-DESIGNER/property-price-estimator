@@ -1,13 +1,8 @@
 [build]
-   publish = "." # Change to your actual build directory
-  functions = ".netlify/v1/functions" # Path to functions folder
-
-[dev]
-  command = "npm run dev" # Change to your actual development server command
-  port = 8888 # You can specify your local dev port
+  functions = "./functions"
 
 [build.environment]
-  NODE_VERSION = "20.15.1"  # Updated to match your Node.js version
+  NODE_VERSION = "20.15.1"  # or whatever version you're using
 
 [[redirects]]
   from = "/*"
