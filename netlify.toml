@@ -1,0 +1,7 @@
+[build]
+   publish = "." # Change to your actual build directory
+  functions = "functions" # Path to functions folder
+
+[dev]
+  command = "npm run dev" # Change to your actual development server command
+  port = 8888 # You can specify your local dev port

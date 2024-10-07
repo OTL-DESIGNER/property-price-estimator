@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property Purchase Price Web Application</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.18/jspdf.plugin.autotable.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/@sendgrid/mail"></script> -->
@@ -16,238 +16,286 @@
     <div class="container mt-5">
         <h2 class="text-center">Property Purchase Price Form</h2>
 
-        <!-- Google OAuth Login -->
-        <div id="g_id_onload"
-        data-client_id="257537625805-2rpqesq2t71bma08teuigaeqjdi65pph.apps.googleusercontent.com"
-        data-callback="handleCredentialResponse"
-        data-scope="profile email"
-        data-auto_prompt="false"
-        data-prompt_parent_id="g_id_signin">
-        </div>
-        <div class="g_id_signin" data-type="standard"></div>
 
-        <!-- Data Capture Form -->
-        <form id="propertyForm" class="mt-5">
-            <h4>Owner Information</h4>
-            <div class="mb-3">
-                <label for="ownerFirstName" class="form-label">Owner First Name</label>
-                <input type="text" class="form-control" id="ownerFirstName" placeholder="Enter owner first name" required>
-            </div>
-            <div class="mb-3">
-                <label for="ownerLastName" class="form-label">Owner Last Name</label>
-                <input type="text" class="form-control" id="ownerLastName" placeholder="Enter owner last name" required>
-            </div>
-            <div class="mb-3">
-                <label for="ownerEmail" class="form-label">Owner Email Address</label>
-                <input type="email" class="form-control" id="ownerEmail" placeholder="Enter owner email address" required>
-            </div>
-            <h4>Agent Information</h4>
-            <div class="mb-3">
-                <label for="agentFirstName" class="form-label">Agent First Name</label>
-                <input type="text" class="form-control" id="agentFirstName" placeholder="Enter agent's first name" required>
-            </div>
-            <div class="mb-3">
-                <label for="agentLastName" class="form-label">Agent Last Name</label>
-                <input type="text" class="form-control" id="agentLastName" placeholder="Enter agent's last name" required>
-            </div>
-            <div class="mb-3">
-                <label for="agentPhoneNumber" class="form-label">Agent Phone Number</label>
-                <input type="tel" class="form-control" id="agentPhoneNumber" placeholder="Enter agent's phone number" required>
-            </div>
-        
-            <h4>Offer Details</h4>
-            <div class="mb-3">
-                <label for="arv" class="form-label">ARV</label>
-                <input type="number" class="form-control" id="arv" placeholder="Enter ARV" required>
-            </div>
-            <div class="mb-3">
-                <label for="holdingPeriod" class="form-label">Holding Period (Months)</label>
-                <input type="number" class="form-control" id="holdingPeriod" placeholder="Enter holding period in months" required>
-            </div>
-            <div class="mb-3">
-                <label for="monthlyAssociationFees" class="form-label">Monthly Association Fees</label>
-                <input type="number" class="form-control" id="monthlyAssociationFees" placeholder="Enter monthly association fees" required>
-            </div>
-            <div class="mb-3">
-                <label for="annualTaxes" class="form-label">Annual Taxes</label>
-                <input type="number" class="form-control" id="annualTaxes" placeholder="Enter annual taxes" required>
-            </div>
-            
-            <h4>Property Information</h4>
-            <div class="mb-3">
-                <label for="propertyAddress" class="form-label">Property Address</label>
-                <input type="text" class="form-control" id="propertyAddress" placeholder="Enter property address" required>
-            </div>
-            <div class="mb-3">
-                <label for="propertyAddress" class="form-label">City, State ZIP</label>
-                <input type="text" class="form-control" id="propertyCityStateZip" placeholder="Enter property address" required>
-            </div>
-            <div class="mb-3">
-                <label for="livingSqFt" class="form-label">Living Square Footage</label>
-                <input type="number" class="form-control" id="livingSqFt" placeholder="Enter living square footage" required>
-            </div>
-            <div class="mb-3">
-                <label for="totalSqFt" class="form-label">Total Square Footage</label>
-                <input type="number" class="form-control" id="totalSqFt" placeholder="Enter total square footage" required>
-            </div>
-            <div class="mb-3">
-                <label for="lotSize" class="form-label">Lot Size (sq ft)</label>
-                <input type="number" class="form-control" id="lotSize" placeholder="Enter lot size" required>
-            </div>
-            <div class="mb-3">
-                <label for="bedrooms" class="form-label">Number of Bedrooms</label>
-                <input type="number" class="form-control" id="bedrooms" placeholder="Enter number of bedrooms" required>
-            </div>
-           <div class="mb-3">
-    <label for="bathrooms" class="form-label">Number of Bathrooms</label>
-    <input type="number" class="form-control" id="bathrooms" placeholder="Enter number of bathrooms" required step="0.1">
-</div>
+  
 
-            <h4>Property Features</h4>
-            <div class="mb-3">
-                <label class="form-label">Pool</label>
-                <select class="form-select" id="pool">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Equipment</label>
-                <select class="form-select" id="equipment">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Water Treatment</label>
-                <select class="form-select" id="waterTreatment">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Tile</label>
-                <select class="form-select" id="tile">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Resurface</label>
-                <select class="form-select" id="resurface">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="windows" class="form-label">Number of Windows</label>
-                <input type="number" class="form-control" id="windows" placeholder="Enter number of windows" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Electric</label>
-                <select class="form-select" id="electric">
-                    <option value="basic">Basic</option>
-                    <option value="fullRenovation">Full Renovation</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Electric Panel Needed</label>
-                <select class="form-select" id="electricPanel">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">AC Needed</label>
-                <select class="form-select" id="acNeeded">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">AC Duct Work Needed</label>
-                <select class="form-select" id="acDuctWork">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Landscaping Needed</label>
-                <select class="form-select" id="landscapingNeeded">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Kitchen</label>
-                <select class="form-select" id="kitchen">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Appliance (Full Package)</label>
-                <select class="form-select" id="appliance">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Flooring</label>
-                <select class="form-select" id="flooring">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Paint Interior</label>
-                <select class="form-select" id="paintInterior">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Paint Exterior</label>
-                <select class="form-select" id="paintExterior">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Roof</label>
-                <select class="form-select" id="roof">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Other</label>
-                <select class="form-select" id="other">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-        
-            <h4>Additional Items</h4>
-            <div class="mb-3">
-                <label for="customRenovationAmount1" class="form-label">Additional Item 1 Amount ($)</label>
-                <input type="number" class="form-control" id="customRenovationAmount1" placeholder="Enter amount">
-            </div>
-        
-            <div class="mb-3">
-                <label for="customRenovationAmount2" class="form-label">Additional Item 2 Amount ($)</label>
-                <input type="number" class="form-control" id="customRenovationAmount2" placeholder="Enter amount">
-            </div>
-        
-            <div class="mb-3">
-                <label for="customRenovationAmount3" class="form-label">Additional Item 3 Amount ($)</label>
-                <input type="number" class="form-control" id="customRenovationAmount3" placeholder="Enter amount">
-            </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+       <!-- Data Capture Form -->
+<form id="propertyForm" class="needs-validation mt-5" novalidate>
+    <h4>Owner Information</h4>
+    <div class="mb-3">
+        <label for="ownerFirstName" class="form-label">Owner First Name</label>
+        <input type="text" class="form-control" id="ownerFirstName" placeholder="Enter owner first name" required>
+        <div class="invalid-feedback">Please enter the owner's first name.</div>
     </div>
+    <div class="mb-3">
+        <label for="ownerLastName" class="form-label">Owner Last Name</label>
+        <input type="text" class="form-control" id="ownerLastName" placeholder="Enter owner last name" required>
+        <div class="invalid-feedback">Please enter the owner's last name.</div>
+    </div>
+    <div class="mb-3">
+        <label for="ownerEmail" class="form-label">Owner Email Address</label>
+        <input type="email" class="form-control" id="ownerEmail" placeholder="Enter owner email address" required>
+        <div class="invalid-feedback">Please enter a valid owner's email address.</div>
+    </div>
+
+    <h4>Agent Information</h4>
+    <div class="mb-3">
+        <label for="agentFirstName" class="form-label">Agent First Name</label>
+        <input type="text" class="form-control" id="agentFirstName" placeholder="Enter agent's first name" required>
+        <div class="invalid-feedback">Please enter the agent's first name.</div>
+    </div>
+    <div class="mb-3">
+        <label for="agentLastName" class="form-label">Agent Last Name</label>
+        <input type="text" class="form-control" id="agentLastName" placeholder="Enter agent's last name" required>
+        <div class="invalid-feedback">Please enter the agent's last name.</div>
+    </div>
+    <div class="mb-3">
+        <label for="agentPhoneNumber" class="form-label">Agent Phone Number</label>
+        <input type="tel" class="form-control" id="agentPhoneNumber" placeholder="Enter agent's phone number" required>
+        <div class="invalid-feedback">Please enter the agent's phone number.</div>
+    </div>
+
+    <h4>Offer Details</h4>
+    <div class="mb-3">
+        <label for="arv" class="form-label">ARV</label>
+        <input type="number" class="form-control" id="arv" placeholder="Enter ARV" required>
+        <div class="invalid-feedback">Please enter the ARV (After Repair Value).</div>
+    </div>
+    <div class="mb-3">
+        <label for="holdingPeriod" class="form-label">Holding Period (Months)</label>
+        <input type="number" class="form-control" id="holdingPeriod" placeholder="Enter holding period in months" required>
+        <div class="invalid-feedback">Please enter the holding period in months.</div>
+    </div>
+    <div class="mb-3">
+        <label for="monthlyAssociationFees" class="form-label">Monthly Association Fees</label>
+        <input type="number" class="form-control" id="monthlyAssociationFees" placeholder="Enter monthly association fees" required>
+        <div class="invalid-feedback">Please enter the monthly association fees.</div>
+    </div>
+    <div class="mb-3">
+        <label for="annualTaxes" class="form-label">Annual Taxes</label>
+        <input type="number" class="form-control" id="annualTaxes" placeholder="Enter annual taxes" required>
+        <div class="invalid-feedback">Please enter the annual taxes.</div>
+    </div>
+
+    <h4>Property Information</h4>
+    <div class="mb-3">
+        <label for="propertyAddress" class="form-label">Property Address</label>
+        <input type="text" class="form-control" id="propertyAddress" placeholder="Enter property address" required>
+        <div class="invalid-feedback">Please enter the property address.</div>
+    </div>
+    <div class="mb-3">
+        <label for="propertyCityStateZip" class="form-label">City, State ZIP</label>
+        <input type="text" class="form-control" id="propertyCityStateZip" placeholder="Enter city, state, and ZIP code" required>
+        <div class="invalid-feedback">Please enter the city, state, and ZIP code.</div>
+    </div>
+    <div class="mb-3">
+        <label for="livingSqFt" class="form-label">Living Square Footage</label>
+        <input type="number" class="form-control" id="livingSqFt" placeholder="Enter living square footage" required>
+        <div class="invalid-feedback">Please enter the living square footage.</div>
+    </div>
+    <div class="mb-3">
+        <label for="totalSqFt" class="form-label">Total Square Footage</label>
+        <input type="number" class="form-control" id="totalSqFt" placeholder="Enter total square footage" required>
+        <div class="invalid-feedback">Please enter the total square footage.</div>
+    </div>
+    <div class="mb-3">
+        <label for="lotSize" class="form-label">Lot Size (sq ft)</label>
+        <input type="number" class="form-control" id="lotSize" placeholder="Enter lot size" required>
+        <div class="invalid-feedback">Please enter the lot size.</div>
+    </div>
+    <div class="mb-3">
+        <label for="bedrooms" class="form-label">Number of Bedrooms</label>
+        <input type="number" class="form-control" id="bedrooms" placeholder="Enter number of bedrooms" required>
+        <div class="invalid-feedback">Please enter the number of bedrooms.</div>
+    </div>
+    <div class="mb-3">
+        <label for="bathrooms" class="form-label">Number of Bathrooms</label>
+        <input type="number" class="form-control" id="bathrooms" placeholder="Enter number of bathrooms" required step="0.1">
+        <div class="invalid-feedback">Please enter the number of bathrooms.</div>
+    </div>
+
+    <h4>Property Features</h4>
+    <div class="mb-3">
+        <label class="form-label">Pool</label>
+        <select class="form-select" id="pool" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if the property has a pool.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Equipment</label>
+        <select class="form-select" id="equipment" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if the property has equipment.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Water Treatment</label>
+        <select class="form-select" id="waterTreatment" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if the property has water treatment.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Tile</label>
+        <select class="form-select" id="tile" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if the property has tile work needed.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Resurface</label>
+        <select class="form-select" id="resurface" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if resurfacing is required.</div>
+    </div>
+    <div class="mb-3">
+        <label for="windows" class="form-label">Number of Windows</label>
+        <input type="number" class="form-control" id="windows" placeholder="Enter number of windows" required>
+        <div class="invalid-feedback">Please enter the number of windows.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Electric</label>
+        <select class="form-select" id="electric" required>
+            <option value="">Select...</option>
+            <option value="basic">Basic</option>
+            <option value="fullRenovation">Full Renovation</option>
+        </select>
+        <div class="invalid-feedback">Please select the type of electric work needed.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Electric Panel Needed</label>
+        <select class="form-select" id="electricPanel" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if an electric panel is needed.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">AC Needed</label>
+        <select class="form-select" id="acNeeded" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if AC is needed.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">AC Duct Work Needed</label>
+        <select class="form-select" id="acDuctWork" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if AC duct work is needed.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Landscaping Needed</label>
+        <select class="form-select" id="landscapingNeeded" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if landscaping is needed.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Kitchen</label>
+        <select class="form-select" id="kitchen" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if kitchen work is required.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Appliance (Full Package)</label>
+        <select class="form-select" id="appliance" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if a full appliance package is needed.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Flooring</label>
+        <select class="form-select" id="flooring" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if flooring is required.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Paint Interior</label>
+        <select class="form-select" id="paintInterior" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if interior painting is required.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Paint Exterior</label>
+        <select class="form-select" id="paintExterior" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if exterior painting is required.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Roof</label>
+        <select class="form-select" id="roof" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if roof work is required.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Other</label>
+        <select class="form-select" id="other" required>
+            <option value="">Select...</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <div class="invalid-feedback">Please select if any other work is required.</div>
+    </div>
+
+    <h4>Additional Items</h4>
+    <div class="mb-3">
+        <label for="customRenovationAmount1" class="form-label">Additional Item 1 Amount ($)</label>
+        <input type="number" class="form-control" id="customRenovationAmount1" placeholder="Enter amount">
+        <div class="invalid-feedback">Please enter the amount for additional item 1.</div>
+    </div>
+
+    <div class="mb-3">
+        <label for="customRenovationAmount2" class="form-label">Additional Item 2 Amount ($)</label>
+        <input type="number" class="form-control" id="customRenovationAmount2" placeholder="Enter amount">
+        <div class="invalid-feedback">Please enter the amount for additional item 2.</div>
+    </div>
+
+    <div class="mb-3">
+        <label for="customRenovationAmount3" class="form-label">Additional Item 3 Amount ($)</label>
+        <input type="number" class="form-control" id="customRenovationAmount3" placeholder="Enter amount">
+        <div class="invalid-feedback">Please enter the amount for additional item 3.</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
     
 
         <!-- Modal -->
@@ -417,69 +465,44 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-
+   
     <script>
-
 
 // Store access token globally
 let accessToken;
-let userEmail; 
-// Function to handle the Google OAuth login and retrieve the access token
+let userEmail;
+
+// Function to handle the Google OAuth login and retrieve the authorization code
 function handleCredentialResponse(response) {
-    // Decode the JWT to get the user's email
     const decodedToken = JSON.parse(atob(response.credential.split('.')[1]));
     userEmail = decodedToken.email;
-    
-    // Then proceed with the OAuth flow
-    const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=257537625805-2rpqesq2t71bma08teuigaeqjdi65pph.apps.googleusercontent.com&redirect_uri=http://localhost:5500/pricing_tool.html&response_type=code&scope=https://www.googleapis.com/auth/spreadsheets`;
+
+    const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${googleRedirectUri}&response_type=code&scope=https://www.googleapis.com/auth/spreadsheets`;
     window.location.href = oauth2Url;
 }
+
 // Get the authorization code from the URL after the user has been redirected back
 function getAuthorizationCodeFromUrl() {
     const params = new URLSearchParams(window.location.search);
-    return params.get('code');  // Extract 'code' parameter from the URL
+    return params.get('code');
 }
 
-// Exchange the authorization code for an OAuth access token
+// Function to exchange the authorization code for an OAuth access token via the serverless function
 function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
-    const tokenEndpoint = 'https://oauth2.googleapis.com/token';
-
-    const params = new URLSearchParams({
-        client_id: '257537625805-2rpqesq2t71bma08teuigaeqjdi65pph.apps.googleusercontent.com',
-        client_secret: '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',  // Replace with actual client secret
-        grant_type: 'authorization_code',
-        redirect_uri: 'http://localhost:5500/pricing_tool.html',  // Ensure this matches Google Cloud settings
-        code: authorizationCode  // Use the authorization code from the URL
-    });
-
-    // Make a POST request to exchange the authorization code for the access token
-    fetch(tokenEndpoint, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: params.toString()
-    })
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(errorData => {
-                throw new Error(`Token exchange failed: ${errorData.error}`);
-            });
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.access_token) {
-            accessToken = data.access_token;
-            console.log('Access Token:', accessToken);
-            showLoginSuccessModal();
-            clearUrlParams();
-        }
-    })
-    .catch(error => {
-        console.error('Error during token exchange:', error);
-        showErrorMessage('Failed to retrieve access token: ' + error.message);
-    });
+    fetch(`/.netlify/functions/googleAuth?code=${authorizationCode}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.access_token) {
+                accessToken = data.access_token;
+                console.log('Access Token:', accessToken);
+                showLoginSuccessModal();
+                clearUrlParams();
+            }
+        })
+        .catch(error => {
+            console.error('Error during token exchange:', error);
+            showErrorMessage('Failed to retrieve access token: ' + error.message);
+        });
 }
 
 // Function to show login success modal
@@ -498,14 +521,13 @@ function showErrorMessage(message) {
 // Function to clear the URL parameters after successful token exchange
 function clearUrlParams() {
     const newUrl = window.location.origin + window.location.pathname;
-    window.history.pushState({}, document.title, newUrl);  // Clear query params like 'code'
+    window.history.pushState({}, document.title, newUrl);
 }
 
 // Initialize Google OAuth Login
 window.onload = function() {
-    // Initialize the Google OAuth Client
     google.accounts.id.initialize({
-        client_id: '257537625805-2rpqesq2t71bma08teuigaeqjdi65pph.apps.googleusercontent.com',
+        client_id: googleClientId,
         callback: handleCredentialResponse,
         error_callback: (error) => {
             console.error("Error in OAuth flow:", error);
@@ -513,23 +535,19 @@ window.onload = function() {
         }
     });
 
-    // Render the Google Sign-In button
     google.accounts.id.renderButton(
         document.querySelector('.g_id_signin'),
         { theme: 'outline', size: 'large' }
     );
 
-    // Check for an authorization code in the URL (after redirect)
     const authorizationCode = getAuthorizationCodeFromUrl();
     if (authorizationCode) {
-        // If authorization code is available, exchange it for an access token
+        // Send authorization code to your serverless function for exchange
         exchangeAuthorizationCodeForAccessToken(authorizationCode);
     } else {
-        // If no authorization code, automatically prompt the user to log in
         google.accounts.id.prompt();
     }
 
-    // Add fallback check for whether third-party cookies are disabled
     checkForThirdPartyCookies();
 };
 
@@ -548,7 +566,7 @@ function checkForThirdPartyCookies() {
     }
 }
 
-// sgMail.setApiKey('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');
+
 // Form Submission Handler
 document.getElementById('propertyForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -1492,36 +1510,50 @@ async function generateOfferLetterPDFBlob(type) {
     return doc.output('blob');
 }
 
-// Modify the sendOfferLetterEmail function
+// Modify the sendOfferLetterEmail function to call the sendEmail function
 async function sendOfferLetterEmail(type) {
     try {
+        // Generate the PDF Blob and convert it to base64
         const pdfBlob = await generateOfferLetterPDFBlob(type);
         const pdfBase64 = await blobToBase64(pdfBlob);
 
-        const msg = {
-            to: [offerData.ownerEmail, 'designer@ontoplocal.com', userEmail],
-            from: 'your-verified-sender@example.com',
-            subject: `${type} Offer Letter for ${offerData.propertyAddress}`,
-            text: `Please find attached the ${type} offer letter for ${offerData.propertyAddress}.`,
-            attachments: [
-                {
-                    content: pdfBase64,
-                    filename: `${type}_Offer_Letter_${offerData.clientName.replace(/\s+/g, '_')}.pdf`,
-                    type: 'application/pdf',
-                    disposition: 'attachment'
-                }
-            ]
+        // Prepare the email data object
+        const emailData = {
+            email: offerData.ownerEmail, // Recipient email (from offerData)
+            subject: `${type} Offer Letter for ${offerData.propertyAddress}`, // Email subject
+            message: `Please find attached the ${type} offer letter for ${offerData.propertyAddress}.`, // Email body
+            attachment: {
+                content: pdfBase64, // Base64 encoded PDF
+                filename: `${type}_Offer_Letter_${offerData.clientName.replace(/\s+/g, '_')}.pdf`,
+                type: 'application/pdf',
+                disposition: 'attachment'
+            }
         };
 
-        // Log the email details instead of sending
-        console.log('Email would be sent with:', msg);
-        alert('Email sending simulation complete. Check console for details.');
+        // Send the email by making a POST request to the sendEmail function
+        const response = await fetch('/.netlify/functions/sendEmail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(emailData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            console.log('Email sent successfully:', result);
+            alert('Email sent successfully!');
+        } else {
+            throw new Error(result.message || 'Failed to send email');
+        }
     } catch (error) {
-        console.error('Error preparing email:', error);
-        alert('An error occurred while preparing the email. Please try again.');
+        console.error('Error sending email:', error);
+        alert('An error occurred while sending the email. Please try again.');
     }
 }
 
+// Helper function to convert Blob to Base64
 function blobToBase64(blob) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -1531,8 +1563,33 @@ function blobToBase64(blob) {
     });
 }
 
+
     </script>
+
+  <script>
+    (function () {
+        'use strict'
     
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+    
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+    
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+
+
+
+    </script>  
     
 </body>
 </html>
