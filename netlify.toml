@@ -9,14 +9,6 @@
 [build.environment]
   NODE_VERSION = "20.15.1"  # Updated to match your Node.js version
 
-[context.production.environment]
-  GOOGLE_CLIENT_ID = "257537625805-2rpqesq2t71bma08teuigaeqjdi65pph.apps.googleusercontent.com"
-  GOOGLE_REDIRECT_URI = "https://property-price-estimator.netlify.app/pricing_tool"
-
-[context.deploy-preview.environment]
-  GOOGLE_CLIENT_ID = "257537625805-2rpqesq2t71bma08teuigaeqjdi65pph.apps.googleusercontent.com"
-  GOOGLE_REDIRECT_URI = "https://deploy-preview-{PR_NUMBER}--property-price-estimator.netlify.app/pricing_tool"
-
 [[redirects]]
   from = "/*"
   to = "/index.html"
