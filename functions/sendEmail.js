@@ -27,7 +27,7 @@ exports.handler = async function(event, context) {
     // Set up the email object
     const msg = {
       to: data.email, // recipient email from the request body
-      from: 'your-verified-email@example.com', // your verified sender email on SendGrid
+      from: 'designer@ontoplocal.com', // your verified sender email on SendGrid
       subject: data.subject, // subject from the request body
       text: data.message, // plain text message from the request body
       html: `<strong>${data.message}</strong>`, // HTML formatted version of the message

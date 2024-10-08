@@ -43,8 +43,14 @@ document.getElementById('propertyForm').addEventListener('submit', function(even
         monthlyAssociationFees: document.getElementById('monthlyAssociationFees').value,
         annualTaxes: document.getElementById('annualTaxes').value
     };
-// Add this line to log the form data
-console.log('Form Data:', formData);
+
+    console.log('Form Data:', formData);
+
+    if (!formData.ownerEmail) {
+        alert('Please provide the owner\'s email address.');
+        return;
+    }
+
     if (accessToken) {
         // Send data to both sheets
         Promise.all([
@@ -55,7 +61,12 @@ console.log('Form Data:', formData);
             setTimeout(() => {
                 fetchAndPopulateOfferData(accessToken, formData)
                     .then(data => {
-                        offerData = data;
+                        offerData = {
+                            ...data,
+                            ownerEmail: formData.ownerEmail,
+                            clientName: `${formData.ownerFirstName} ${formData.ownerLastName}`
+                        };
+                        console.log('Offer Data:', offerData);
                         showOfferOptionsModal();
                         document.getElementById('viewOffersButton').style.display = 'block';
                     })
@@ -73,13 +84,12 @@ console.log('Form Data:', formData);
     }
 });
 
+// Form validation
 (function () {
     'use strict'
     
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.querySelectorAll('.needs-validation')
     
-    // Loop over them and prevent submission
     Array.prototype.slice.call(forms)
         .forEach(function (form) {
             form.addEventListener('submit', function (event) {
