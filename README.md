@@ -50,7 +50,7 @@ The Property Price Estimator is a web application designed to streamline the pro
 Here are some screenshots of the Property Price Estimator in action:
 
 ### Offer Letter
-![Offer Letter](images/screenshots/offers.png)
+![Offer Letter](images/screenshots/offers.jpg)
 
 *Figure 1: Interface for viewing and managing multiple offers*
 
