@@ -690,11 +690,7 @@ function sendDataToOfferSheet(data, accessToken) {
         document.getElementById('responseMessage').innerHTML += '<p>Offer data submitted successfully!</p>';
         // Fetch the offer results after the calculations are done
         fetchOfferResults(accessToken, data);
-        // Show the modal after fetching the results
-        setTimeout(() => {
-            var agentOfferModal = new bootstrap.Modal(document.getElementById('agentOfferModal'));
-            agentOfferModal.show();
-        }, 1000); // Wait for 1 second to ensure data is fetched
+
     })
     .catch(error => {
         console.error('Error sending data to the Offer sheet:', error);
@@ -1593,5 +1589,11 @@ function blobToBase64(blob) {
         const googleRedirectUri = "https://property-price-estimator.netlify.app/pricing_tool";
     </script>
     <script src="googleAuth.js"></script>
+    <script>
+        document.addEventListener('hidden.bs.modal', function (event) {
+            const backdrops = document.querySelectorAll('.modal-backdrop');
+            backdrops.forEach(backdrop => backdrop.remove());
+        });
+    </script>
 </body>
 </html>
