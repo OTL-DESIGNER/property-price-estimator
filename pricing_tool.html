@@ -634,6 +634,7 @@ function fetchAndPopulateOfferData(accessToken, formData) {
         fetchAndPopulateSellerOffer(accessToken, formData)
     ]).then(([offerResults, sellerOfferData]) => {
         offerData = { ...offerResults, ...sellerOfferData };
+        console.log('Combined offerData:', offerData);
         showOfferOptionsModal();
         return offerData;
     }).catch(error => {
@@ -908,9 +909,9 @@ function fetchAndPopulateSellerOffer(accessToken, formData) {
         console.log('Fetched results for seller offer:', result);
         
         if (result.values && result.values.length > 0) {
-            offerData = processSellerOfferData(result.values, formData);
-            populateSellerOfferModal(offerData);
-            return offerData;
+            const processedData = processSellerOfferData(result.values, formData);
+            populateSellerOfferModal(processedData);
+            return processedData;
         } else {
             throw new Error('Insufficient data received from the spreadsheet');
         }
@@ -1232,8 +1233,8 @@ async function generatePDF(type) {
             `Retail Buy Price: ${formatCurrency(offerData.retailBuyPrice)}`;
         doc.text(priceText, margin, 90);
 
-        // Table
-        const startY = 95;
+      // Table
+      const startY = 95;
         const headers = [["Other Sale Options", "Retail Sale - After Repairs", "Retail Sale - As Is"]];
         const rows = [
             ["Market Value", formatCurrency(offerData.marketValueAfterRepairs), formatCurrency(offerData.marketValueAsIs)],
