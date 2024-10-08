@@ -47,6 +47,9 @@
         .table {
             box-shadow: 0 0 5px rgba(0,0,0,0.1);
         }
+        #viewOffersButton {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -478,7 +481,7 @@
   </div>
   
   <!-- Button to trigger the seller offer modal -->
-  <button type="button" class="btn btn-primary mt-5" data-bs-toggle="modal" data-bs-target="#offerOptionsModal">
+  <button id="viewOffersButton" type="button" class="btn btn-primary mt-5" data-bs-toggle="modal" data-bs-target="#offerOptionsModal">
     View Offers
   </button>
  
@@ -552,6 +555,7 @@ console.log('Form Data:', formData);
                     .then(data => {
                         offerData = data;
                         showOfferOptionsModal();
+                        document.getElementById('viewOffersButton').style.display = 'block';
                     })
                     .catch(error => {
                         console.error('Error fetching offer data:', error);
