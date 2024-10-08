@@ -860,6 +860,7 @@ function fetchOfferResults(accessToken, formData) {
             };
 
             console.log('Updated offerData:', offerData);
+            populateAgentOfferModal(offerData);  // Make sure this line is present
 
         } else {
             throw new Error('Insufficient data received from the spreadsheet');
@@ -1313,21 +1314,13 @@ async function getImageDataUrl(url) {
 
 async function generateBuyingAgentPDF() {
     console.log("Generating Buying Agent PDF");
+    console.log("Current offerData:", offerData);
 
-    // Gather data directly from the modal
-    const modalData = {
-        clientName: document.getElementById('clientNameAgent').innerText,
-        propertyAddress: document.getElementById('propertyAddressAgent').innerText,
-        arv: document.getElementById('arvAgent').innerText,
-        holdingPeriod: document.getElementById('holdingPeriodAgent').innerText,
-        monthlyAssociationFees: document.getElementById('associationFeesAgent').innerText,
-        annualTaxes: document.getElementById('annualTaxesAgent').innerText,
-        retailBuyingOffer: document.getElementById('retailOfferAgent').innerText,
-        percentageArv: document.getElementById('percentageArvAgent').innerText,
-        wholesaleBuyingOffer: document.getElementById('wholesaleOfferAgent').innerText
-    };
-
-    console.log("Modal Data for PDF:", modalData);
+    if (!offerData) {
+        console.error('Offer data is not available');
+        alert('Unable to generate PDF. Please try submitting the form again.');
+        return;
+    }
 
     const logoUrl = '/images/OldR3-logo.jpeg';
     const logoDataUrl = await getImageDataUrl(logoUrl);
@@ -1361,7 +1354,17 @@ async function generateBuyingAgentPDF() {
     // Offer details table
     const startY = 70;
     const headers = [["Item", "Value"]];
-    const rows = Object.entries(modalData).map(([key, value]) => [key, value || 'N/A']);
+    const rows = [
+        ["Client", offerData.clientName],
+        ["Property Address", offerData.propertyAddress],
+        ["ARV", formatCurrency(offerData.arv)],
+        ["Holding Period (months)", offerData.holdingPeriod],
+        ["Monthly Association Fees", formatCurrency(offerData.monthlyAssociationFees)],
+        ["Annual Taxes", formatCurrency(offerData.annualTaxes)],
+        ["Retail Buying Offer", formatCurrency(offerData.retailBuyingOffer)],
+        ["Percentage of ARV", offerData.percentageArv],
+        ["Wholesale Buying Offer", formatCurrency(offerData.wholesaleBuyingOffer)]
+    ];
 
     doc.autoTable({
         startY: startY,
@@ -1380,7 +1383,7 @@ async function generateBuyingAgentPDF() {
     doc.text(`Generated on ${new Date().toLocaleDateString()}`, pageWidth / 2, pageHeight - 5, { align: "center" });
 
     // Save the PDF
-    doc.save(`Buying_Agent_Presentation_${modalData.clientName.replace(/\s+/g, '_')}.pdf`);
+    doc.save(`Buying_Agent_Presentation_${offerData.clientName.replace(/\s+/g, '_')}.pdf`);
 }
 
 
