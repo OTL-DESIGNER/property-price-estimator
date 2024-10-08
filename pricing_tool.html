@@ -643,7 +643,6 @@ function fetchAndPopulateOfferData(accessToken, formData) {
         throw error;
     });
 }
-
 function sendDataToOfferSheet(data, accessToken) {
     const spreadsheetId = '1RsJO6oJpA0-e2FeifhYSXsY2qXPb2np10hjFUs3HYuQ';
     const range = 'Offer!B7:B14';  // Updated range to exclude property address
@@ -826,7 +825,7 @@ function fetchOfferResults(accessToken, formData) {
     const spreadsheetId = '1RsJO6oJpA0-e2FeifhYSXsY2qXPb2np10hjFUs3HYuQ';
     const range = 'Offer!B7:E23';  // Updated range to include all needed cells
 
-    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`, {
+    return fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${accessToken}`,
@@ -860,8 +859,8 @@ function fetchOfferResults(accessToken, formData) {
             };
 
             console.log('Updated offerData:', offerData);
-            populateAgentOfferModal(offerData);  // Make sure this line is present
-
+            populateAgentOfferModal(offerData);
+            return offerData;
         } else {
             throw new Error('Insufficient data received from the spreadsheet');
         }
@@ -869,21 +868,21 @@ function fetchOfferResults(accessToken, formData) {
     .catch(error => {
         console.error('Error fetching offer results:', error);
         alert('Error fetching offer results: ' + error.message);
+        throw error;
     });
 }
 
 // Javascript to populate Modal
 function populateAgentOfferModal(data) {
-    document.getElementById('clientNameAgent').innerText = data.clientName;
-    document.getElementById('propertyAddressAgent').innerText = data.propertyAddress;
-    document.getElementById('arvAgent').innerText = data.arv;
-    document.getElementById('holdingPeriodAgent').innerText = data.holdingPeriod;
-    document.getElementById('associationFeesAgent').innerText = data.monthlyAssociationFees;
-    document.getElementById('annualTaxesAgent').innerText = data.annualTaxes;
-    document.getElementById('retailOfferAgent').innerText = data.retailBuyingOffer;
-    document.getElementById('percentageArvAgent').innerText = data.percentageArv;
-    document.getElementById('wholesaleOfferAgent').innerText = data.wholesaleBuyingOffer;
-
+    document.getElementById('clientNameAgent').innerText = data.clientName || 'N/A';
+    document.getElementById('propertyAddressAgent').innerText = data.propertyAddress || 'N/A';
+    document.getElementById('arvAgent').innerText = data.arv || 'N/A';
+    document.getElementById('holdingPeriodAgent').innerText = data.holdingPeriod || 'N/A';
+    document.getElementById('associationFeesAgent').innerText = data.monthlyAssociationFees || 'N/A';
+    document.getElementById('annualTaxesAgent').innerText = data.annualTaxes || 'N/A';
+    document.getElementById('retailOfferAgent').innerText = data.retailBuyingOffer || 'N/A';
+    document.getElementById('percentageArvAgent').innerText = data.percentageArv || 'N/A';
+    document.getElementById('wholesaleOfferAgent').innerText = data.wholesaleBuyingOffer || 'N/A';
 }
 
 
