@@ -45,6 +45,18 @@ The Property Price Estimator is a web application designed to streamline the pro
 ### Deployment:
 - Hosted on Netlify
 
+## Screenshots
+
+Here are some screenshots of the Property Price Estimator in action:
+
+### Offer Letter
+![Offer Letter](images/screenshots/offer-letter.png)
+
+### Presentation to Seller
+![Presentation to Seller](images/screenshots/presentation-to-seller.png)
+
+### View Offers
+![View Offers](images/screenshots/view-offers.png)
 ## Getting Started
 
 ### Prerequisites
