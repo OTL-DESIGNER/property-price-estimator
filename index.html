@@ -65,19 +65,16 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="js/googleAuth.js"></script>
     <script>
-        function handleCredentialResponse(response) {
-    // Store the credential in localStorage
-    localStorage.setItem('googleCredential', response.credential);
-    // Redirect to the pricing tool page
-    window.location.href = '/pricing_tool';
-}
+//         function handleCredentialResponse(response) {
+//     localStorage.setItem('googleCredential', response.credential);
+//     window.location.href = '/pricing_tool';
+// }
 
-// Check if user is already logged in
-window.onload = function() {
-    if (localStorage.getItem('googleCredential')) {
-        window.location.href = '/pricing_tool';
-    }
-}
+// window.onload = function() {
+//     if (localStorage.getItem('googleCredential')) {
+//         window.location.href = '/pricing_tool';
+//     }
+// }
     </script>
 </body>
 </html>

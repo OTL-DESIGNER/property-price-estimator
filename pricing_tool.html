@@ -13,12 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.18/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
-    <script>
-        if (typeof checkAuth === 'function' && !checkAuth()) {
-            alert('Please log in with Google first.');
-            window.location.href = '/';
-        }
-        </script>
+   
     <div class="container mt-5">
         <h2 class="text-center">Property Purchase Price Form</h2>
 
@@ -470,7 +465,12 @@
     <script src="js/offerData.js"></script>
     <script src="js/pdfEmailHandler.js"></script>
     <script src="js/main.js"></script> 
-
+    <script>
+        if (typeof checkAuth === 'function' && !checkAuth()) {
+            alert('Please log in with Google first.');
+            window.location.href = '/';
+        }
+        </script>
     <!-- Inline Script for Modal Backdrop Removal -->
     <script>
         document.addEventListener('hidden.bs.modal', function (event) {
