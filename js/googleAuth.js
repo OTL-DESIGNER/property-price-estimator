@@ -118,8 +118,16 @@ function init() {
     const authorizationCode = getAuthorizationCodeFromUrl();
     if (authorizationCode) {
         exchangeAuthorizationCodeForAccessToken(authorizationCode);
-    } else if (checkAuth() && (window.location.pathname === '/' || window.location.pathname === '')) {
-        window.location.href = '/pricing_tool';
+    } else if (checkAuth()) {
+        if (window.location.pathname === '/pricing_tool') {
+            // User is already authenticated and on the pricing tool page
+            console.log('User is authenticated on pricing tool page');
+        } else {
+            window.location.href = '/pricing_tool';
+        }
+    } else if (window.location.pathname === '/pricing_tool') {
+        // User is not authenticated but on the pricing tool page
+        window.location.href = '/';
     }
 }
 
