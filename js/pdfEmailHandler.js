@@ -414,11 +414,14 @@ async function sendOfferLetterEmail(type) {
         const pdfBlob = await generateOfferLetterPDFBlob(type);
         const pdfBase64 = await blobToBase64(pdfBlob);
 
+        // Combine the full address
+        const fullAddress = `${offerData.propertyAddress}, ${offerData.propertyCityStateZip}`;
+
         // Prepare the email data object
         const emailData = {
             email: offerData.ownerEmail, // Recipient email (from offerData)
-            subject: `${type} Offer Letter for ${offerData.propertyAddress}`, // Email subject
-            message: `Please find attached the ${type} offer letter for ${offerData.propertyAddress}.`, // Email body
+            subject: `${type} Offer Letter for ${fullAddress}`, // Email subject
+            message: `Please find attached the ${type} offer letter for ${fullAddress}.`, // Email body
             attachment: {
                 content: pdfBase64, // Base64 encoded PDF
                 filename: `${type}_Offer_Letter_${offerData.clientName.replace(/\s+/g, '_')}.pdf`,
