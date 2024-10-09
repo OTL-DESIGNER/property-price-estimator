@@ -224,7 +224,7 @@ async function generateOfferLetterPDF(type, returnBlob = false) {
         return;
     }
 
-    const logoUrl = '/images/OldR3-logo.jpeg'; // Update this to your logo path or URL
+    const logoUrl = '/images/OldR3-logo.jpeg';
     const logoDataUrl = await getImageDataUrl(logoUrl);
 
     const { jsPDF } = window.jspdf;
@@ -237,7 +237,7 @@ async function generateOfferLetterPDF(type, returnBlob = false) {
     doc.addImage(logoDataUrl, 'JPEG', margin, 10, 40, 20);
 
     // Add header
-    doc.setFillColor(39, 174, 96); // A softer green
+    doc.setFillColor(39, 174, 96);
     doc.rect(0, 35, pageWidth, 15, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(12);
@@ -255,15 +255,30 @@ async function generateOfferLetterPDF(type, returnBlob = false) {
     doc.setFontSize(12);
 
     // Add recipient address
-    doc.text(`${offerData.clientName}`, margin, 65);
-    doc.text(`${offerData.propertyAddress}`, margin, 75);
-    doc.text(`${offerData.propertyCityStateZip}`, margin, 85);
+    let addressYPos = 65;
+    const addressLineHeight = 10;
+
+    doc.text(`${offerData.clientName}`, margin, addressYPos);
+    addressYPos += addressLineHeight;
+
+    // Combine the address into a single string
+    const fullAddress = `${offerData.propertyAddress}, ${offerData.propertyCityStateZip}`;
+    const addressLines = doc.splitTextToSize(fullAddress, pageWidth - 2 * margin);
+
+    // Add each line of the address
+    addressLines.forEach(line => {
+        doc.text(line, margin, addressYPos);
+        addressYPos += addressLineHeight;
+    });
+
+    // Adjust the starting position of the letter content
+    let yPos = addressYPos + 20;
 
     // Add letter content
-    doc.text(`Dear ${offerData.clientName.split(' ')[0]},`, margin, 105);
+    doc.text(`Dear ${offerData.clientName.split(' ')[0]},`, margin, yPos);
 
     doc.setFontSize(10);
-    let yPos = 115;
+    yPos += 10;
     const lineHeight = 7;
 
     const paragraphs = [
@@ -289,15 +304,13 @@ async function generateOfferLetterPDF(type, returnBlob = false) {
     doc.text(`Page 1 of 1`, pageWidth / 2, pageHeight - 15, { align: "center" });
     doc.text(`Generated on ${new Date().toLocaleDateString()}`, pageWidth / 2, pageHeight - 10, { align: "center" });
 
-    // Save the PDF
-    doc.save(`${type}_Offer_Letter_${offerData.clientName.replace(/\s+/g, '_')}.pdf`);
-
     if (returnBlob) {
         return doc.output('blob');
     } else {
         doc.save(`${type}_Offer_Letter_${offerData.clientName.replace(/\s+/g, '_')}.pdf`);
     }
 }
+
 // generate offer letter PDF blob
 async function generateOfferLetterPDFBlob(type) {
     console.log(`Generating ${type} Offer Letter PDF Blob`);
@@ -319,7 +332,7 @@ async function generateOfferLetterPDFBlob(type) {
     doc.addImage(logoDataUrl, 'JPEG', margin, 10, 40, 20);
 
     // Add header
-    doc.setFillColor(39, 174, 96); // A softer green
+    doc.setFillColor(39, 174, 96);
     doc.rect(0, 35, pageWidth, 15, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(12);
@@ -337,15 +350,30 @@ async function generateOfferLetterPDFBlob(type) {
     doc.setFontSize(12);
 
     // Add recipient address
-    doc.text(`${offerData.clientName}`, margin, 65);
-    doc.text(`${offerData.propertyAddress}`, margin, 75);
-    doc.text(`${offerData.propertyCityStateZip}`, margin, 85);
+    let addressYPos = 65;
+    const addressLineHeight = 10;
+
+    doc.text(`${offerData.clientName}`, margin, addressYPos);
+    addressYPos += addressLineHeight;
+
+    // Combine the address into a single string
+    const fullAddress = `${offerData.propertyAddress}, ${offerData.propertyCityStateZip}`;
+    const addressLines = doc.splitTextToSize(fullAddress, pageWidth - 2 * margin);
+
+    // Add each line of the address
+    addressLines.forEach(line => {
+        doc.text(line, margin, addressYPos);
+        addressYPos += addressLineHeight;
+    });
+
+    // Adjust the starting position of the letter content
+    let yPos = addressYPos + 20;
 
     // Add letter content
-    doc.text(`Dear ${offerData.clientName.split(' ')[0]},`, margin, 105);
+    doc.text(`Dear ${offerData.clientName.split(' ')[0]},`, margin, yPos);
 
     doc.setFontSize(10);
-    let yPos = 115;
+    yPos += 10;
     const lineHeight = 7;
 
     const paragraphs = [
@@ -371,7 +399,7 @@ async function generateOfferLetterPDFBlob(type) {
     doc.text(`Page 1 of 1`, pageWidth / 2, pageHeight - 15, { align: "center" });
     doc.text(`Generated on ${new Date().toLocaleDateString()}`, pageWidth / 2, pageHeight - 10, { align: "center" });
 
-    // Return the PDF as a blob instead of saving
+    // Return the PDF as a blob
     return doc.output('blob');
 }
 
