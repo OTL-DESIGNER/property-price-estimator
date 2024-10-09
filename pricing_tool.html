@@ -13,11 +13,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.18/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
-
+    <script>
+        if (typeof checkAuth === 'function' && !checkAuth()) {
+            alert('Please log in with Google first.');
+            window.location.href = '/';
+        }
+        </script>
     <div class="container mt-5">
         <h2 class="text-center">Property Purchase Price Form</h2>
 
-        <div class="g_id_signin"></div>
+        <button onclick="signOut()" class="btn btn-secondary">Sign Out</button>
   
 
 <!-- Data Capture Form -->
@@ -452,10 +457,10 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <!-- Configuration Variables -->
-    <script>
+    <!-- <script>
         const googleClientId = "257537625805-2rpqesq2t71bma08teuigaeqjdi65pph.apps.googleusercontent.com";
         const googleRedirectUri = "https://property-price-estimator.netlify.app/pricing_tool";
-    </script>
+    </script> -->
 
     <!-- Custom Scripts -->
     <script src="js/googleAuth.js"></script>
