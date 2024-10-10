@@ -89,11 +89,15 @@ function clearUrlParams() {
     const newUrl = window.location.origin + window.location.pathname;
     window.history.pushState({}, document.title, newUrl);
 }
+// In googleAuth.js
 function checkAuth() {
     const isAuthenticated = !!localStorage.getItem('googleCredential');
     console.log("checkAuth result:", isAuthenticated);
     return isAuthenticated;
 }
+
+// Make checkAuth globally accessible
+window.checkAuth = checkAuth;
 
 function signOut() {
     localStorage.removeItem('googleCredential');

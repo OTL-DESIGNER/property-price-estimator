@@ -1,7 +1,12 @@
 // Form Submission Handler
 document.getElementById('propertyForm').addEventListener('submit', function(event) {
     event.preventDefault();
-
+  // Check if user is authenticated
+  if (!checkAuth()) {
+    alert('You need to log in first.');
+    window.location.href = '/';
+    return;
+}
     const formData = {
         ownerFirstName: document.getElementById('ownerFirstName').value,
         ownerLastName: document.getElementById('ownerLastName').value,
