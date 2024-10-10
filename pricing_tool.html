@@ -475,6 +475,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Pricing tool page loaded');
             if (typeof checkAuth === 'function') {
+                console.log('checkAuth function found');
                 const isAuthenticated = checkAuth();
                 console.log('Authentication check result:', isAuthenticated);
                 if (!isAuthenticated) {
@@ -486,6 +487,8 @@
                 }
             } else {
                 console.error('checkAuth function not found');
+                localStorage.setItem('redirectReason', 'checkAuth function not found on pricing tool page');
+                window.location.href = '/';
             }
         });
     </script>

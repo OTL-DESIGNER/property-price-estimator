@@ -72,6 +72,8 @@
                 alert('Redirected because: ' + redirectReason);
                 localStorage.removeItem('redirectReason');
             }
+            console.log('Google Credential:', localStorage.getItem('googleCredential') ? 'Present' : 'Not present');
+            console.log('Access Token:', localStorage.getItem('accessToken') ? 'Present' : 'Not present');
         });
     </script>
 </body>

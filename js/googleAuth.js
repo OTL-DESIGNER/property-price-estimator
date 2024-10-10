@@ -30,7 +30,9 @@ function handleCredentialResponse(response) {
     const decodedToken = JSON.parse(atob(response.credential.split('.')[1]));
     userEmail = decodedToken.email;
     localStorage.setItem('googleCredential', response.credential);
+    localStorage.setItem('accessToken', response.credential); // Store credential as access token
 
+    console.log('Credential stored, redirecting to OAuth2 URL');
     const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${googleRedirectUri}&response_type=code&scope=https://www.googleapis.com/auth/spreadsheets`;
     window.location.href = oauth2Url;
 }
@@ -107,6 +109,7 @@ function checkAuth() {
     const accessToken = localStorage.getItem('accessToken');
     console.log('Google Credential:', googleCredential ? 'Present' : 'Not present');
     console.log('Access Token:', accessToken ? 'Present' : 'Not present');
+    console.log('Full Access Token:', accessToken);
     return !!(googleCredential && accessToken);
 }
 
