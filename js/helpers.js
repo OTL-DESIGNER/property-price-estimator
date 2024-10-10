@@ -35,12 +35,18 @@ function calculateNetToYou(marketValue, totalCosts) {
 
 // Function to show error message
 function showErrorMessage(message) {
+    console.error(message); // Always log the error to console
     const errorElement = document.getElementById('errorMessage');
     if (errorElement) {
         errorElement.textContent = message;
         errorElement.style.display = 'block';
     } else {
-        console.error('Error message element not found');
-        alert(message);
+        // If the error element doesn't exist, create one
+        const newErrorElement = document.createElement('div');
+        newErrorElement.id = 'errorMessage';
+        newErrorElement.textContent = message;
+        newErrorElement.style.color = 'red';
+        newErrorElement.style.marginTop = '10px';
+        document.body.insertBefore(newErrorElement, document.body.firstChild);
     }
 }

@@ -14,10 +14,13 @@ function initializeGoogleSignIn() {
             callback: handleCredentialResponse
         });
 
-        google.accounts.id.renderButton(
-            document.getElementById('g_id_signin'),
-            { theme: 'outline', size: 'large' }
-        );
+        const signInButton = document.getElementById('g_id_signin');
+        if (signInButton) {
+            google.accounts.id.renderButton(
+                signInButton,
+                { theme: 'outline', size: 'large' }
+            );
+        }
     } else {
         console.error('Google Sign-In script not loaded properly');
     }
@@ -48,6 +51,7 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
         .then(data => {
             if (data.access_token) {
                 accessToken = data.access_token;
+                localStorage.setItem('accessToken', accessToken);
                 console.log('Access Token:', accessToken);
                 showLoginSuccessModal();
                 clearUrlParams();
@@ -93,7 +97,7 @@ function signOut() {
 }
 
 function checkAuth() {
-    return !!localStorage.getItem('googleCredential');
+    return !!(localStorage.getItem('googleCredential') && localStorage.getItem('accessToken'));
 }
 
 function checkForThirdPartyCookies() {
@@ -119,14 +123,13 @@ function init() {
     if (authorizationCode) {
         exchangeAuthorizationCodeForAccessToken(authorizationCode);
     } else if (checkAuth()) {
+        accessToken = localStorage.getItem('accessToken');
         if (window.location.pathname === '/pricing_tool') {
-            // User is already authenticated and on the pricing tool page
             console.log('User is authenticated on pricing tool page');
         } else {
             window.location.href = '/pricing_tool';
         }
     } else if (window.location.pathname === '/pricing_tool') {
-        // User is not authenticated but on the pricing tool page
         window.location.href = '/';
     }
 }
