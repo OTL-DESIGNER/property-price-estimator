@@ -471,6 +471,19 @@
     <script src="js/pdfEmailHandler.js"></script>
     <script src="js/main.js"></script> 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    accessToken = localStorage.getItem('accessToken');  // Retrieve token from localStorage
+
+    if (!accessToken) {
+        alert('You need to log in first.');
+        window.location.href = '/';  // Redirect to login if token is not available
+    } else {
+        console.log('Access Token exists:', accessToken);
+    }
+});
+
+    </script>
+    <script>
         if (typeof checkAuth === 'function' && !checkAuth()) {
             alert('Please log in with Google first.');
             window.location.href = '/';

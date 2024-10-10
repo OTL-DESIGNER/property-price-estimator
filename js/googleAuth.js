@@ -49,16 +49,19 @@ function getAuthorizationCodeFromUrl() {
 
 // Exchange authorization code for access token
 function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
+    console.log("Starting token exchange...");
     fetch(`/.netlify/functions/googleAuth?code=${authorizationCode}`)
         .then(response => response.json())
         .then(data => {
             if (data.access_token) {
                 accessToken = data.access_token;
-                console.log('Access Token:', accessToken);
+                console.log('Access token received:', accessToken);
+                localStorage.setItem('accessToken', accessToken);  // Store the token for later use
                 showLoginSuccessModal();
                 clearUrlParams();
-                window.location.href = '/pricing_tool';
+                window.location.href = '/pricing_tool';  // Redirect to pricing tool
             } else {
+                console.error('No access token received');
                 throw new Error('No access token received');
             }
         })
@@ -67,6 +70,8 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
             showErrorMessage('Failed to retrieve access token: ' + error.message);
         });
 }
+
+
 
 // UI Functions
 function showLoginSuccessModal() {
