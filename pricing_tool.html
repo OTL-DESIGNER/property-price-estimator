@@ -466,12 +466,13 @@
     <script src="js/offerData.js"></script>
     <script src="js/pdfEmailHandler.js"></script>
     <script src="js/main.js"></script> 
-     <script>
-        if (typeof checkAuth === 'function' && !checkAuth()) {
-            alert('Please log in with Google first.');
-            window.location.href = '/';
+    <script>
+        window.onload = function() {
+            if (!checkAuth()) {
+                window.location.href = '/';
+            }
         }
-        </script> 
+    </script>
     <!-- Inline Script for Modal Backdrop Removal -->
     <script>
         document.addEventListener('hidden.bs.modal', function (event) {
