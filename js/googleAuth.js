@@ -20,6 +20,8 @@ function initializeGoogleSignIn() {
                 signInButton,
                 { theme: 'outline', size: 'large' }
             );
+        } else {
+            console.error('Sign-in button element not found');
         }
     } else {
         console.error('Google Sign-In script not loaded properly');
@@ -60,8 +62,6 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
         .catch(error => {
             console.error('Error during token exchange:', error);
             showErrorMessage('Failed to retrieve access token: ' + error.message);
-            // Redirect to the login page if there's an error
-            window.location.href = '/';
         });
 }
 // UI Functions
@@ -119,9 +119,6 @@ function init() {
     } else if (checkAuth()) {
         accessToken = localStorage.getItem('accessToken');
         console.log('User is authenticated');
-        // Don't redirect here, as we're already on the correct page
-    } else if (window.location.pathname === '/pricing_tool') {
-        window.location.href = '/';
     } else {
         initializeGoogleSignIn();
     }
