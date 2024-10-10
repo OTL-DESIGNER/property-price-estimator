@@ -1,4 +1,4 @@
-// Global variables
+/ Global variables
 let accessToken;
 let userEmail;
 
@@ -8,6 +8,7 @@ const googleRedirectUri = "https://property-price-estimator.netlify.app/pricing_
 
 // Google Sign-In initialization
 function initializeGoogleSignIn() {
+    console.log("Initializing Google Sign-In");
     if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
         google.accounts.id.initialize({
             client_id: googleClientId,
@@ -30,12 +31,14 @@ function initializeGoogleSignIn() {
 
 // Handle the credential response from Google Sign-In
 function handleCredentialResponse(response) {
+    console.log("Received credential response");
     const decodedToken = JSON.parse(atob(response.credential.split('.')[1]));
     userEmail = decodedToken.email;
     localStorage.setItem('googleCredential', response.credential);
+    console.log("Stored googleCredential in localStorage");
 
-    const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${googleRedirectUri}&response_type=code&scope=https://www.googleapis.com/auth/spreadsheets`;
-    window.location.href = oauth2Url;
+    // Redirect to pricing tool immediately after receiving the credential
+    window.location.href = '/pricing_tool';
 }
 
 // Get authorization code from URL
@@ -86,16 +89,15 @@ function clearUrlParams() {
     const newUrl = window.location.origin + window.location.pathname;
     window.history.pushState({}, document.title, newUrl);
 }
-function signOut() {
-    localStorage.removeItem('googleCredential');
-    localStorage.removeItem('accessToken');
-    window.location.href = '/';
+function checkAuth() {
+    const isAuthenticated = !!localStorage.getItem('googleCredential');
+    console.log("checkAuth result:", isAuthenticated);
+    return isAuthenticated;
 }
 
-function checkAuth() {
-    const googleCredential = localStorage.getItem('googleCredential');
-    const accessToken = localStorage.getItem('accessToken');
-    return !!(googleCredential && accessToken);
+function signOut() {
+    localStorage.removeItem('googleCredential');
+    window.location.href = '/';
 }
 function checkForThirdPartyCookies() {
     try {

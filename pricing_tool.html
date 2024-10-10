@@ -14,7 +14,19 @@
 
 </head>
 <body>
-  
+    <script src="js/googleAuth.js"></script>
+    <script>
+        window.onload = function() {
+            console.log("Pricing tool page loaded");
+            if (!checkAuth()) {
+                console.log("User is not authenticated, redirecting to login page");
+                window.location.href = '/';
+            } else {
+                console.log("User is authenticated, loading pricing tool");
+                // Load your pricing tool content here
+            }
+        }
+    </script>
     <div class="container mt-5">
         <h2 class="text-center">Property Purchase Price Form</h2>
 
@@ -459,20 +471,20 @@
     </script> -->
 
     <!-- Custom Scripts -->
-    <script src="js/googleAuth.js"></script> 
+    <!-- <script src="js/googleAuth.js"></script>  -->
     <script src="js/googleSheetsAPI.js"></script> 
     <script src="js/formHandler.js"></script>
     <script src="js/helpers.js"></script>
     <script src="js/offerData.js"></script>
     <script src="js/pdfEmailHandler.js"></script>
     <script src="js/main.js"></script> 
-    <script>
+    <!-- <script>
         window.onload = function() {
             if (!checkAuth()) {
                 window.location.href = '/';
             }
         }
-    </script>
+    </script> -->
     <!-- Inline Script for Modal Backdrop Removal -->
     <script>
         document.addEventListener('hidden.bs.modal', function (event) {
