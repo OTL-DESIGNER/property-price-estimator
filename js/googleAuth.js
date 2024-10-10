@@ -45,6 +45,8 @@ function handleCredentialResponse(response) {
     localStorage.setItem('userEmail', userEmail);
     localStorage.setItem('userProfileImage', userProfileImage);
 
+    // Don't set the access token here, it will be set after exchanging the code
+
     const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${googleRedirectUri}&response_type=code&scope=https://www.googleapis.com/auth/spreadsheets`;
     window.location.href = oauth2Url;
 }
@@ -79,7 +81,6 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
             window.location.href = '/';
         });
 }
-
 // UI Functions
 function showErrorMessage(message) {
     const errorElement = document.getElementById('errorMessage');
@@ -112,6 +113,8 @@ function signOut() {
 function checkAuth() {
     const googleCredential = localStorage.getItem('googleCredential');
     const accessToken = localStorage.getItem('accessToken');
+    console.log('Google Credential:', googleCredential ? 'Present' : 'Not present');
+    console.log('Access Token:', accessToken ? 'Present' : 'Not present');
     return !!(googleCredential && accessToken);
 }
 
@@ -151,12 +154,19 @@ function toggleAccountDropdown() {
 
 // Main initialization
 function init() {
+    console.log('Init function called. Current path:', window.location.pathname);
+    
     if (window.location.pathname === '/') {
+        console.log('On home page, initializing Google Sign-In');
         initializeGoogleSignIn();
     } else if (window.location.pathname === '/pricing_tool') {
+        console.log('On pricing tool page, checking auth');
         if (!checkAuth()) {
+            console.log('Auth check failed, redirecting to home');
+            localStorage.setItem('redirectReason', 'Failed auth check on pricing tool page load');
             window.location.href = '/';
         } else {
+            console.log('Auth check passed, updating account menu');
             updateAccountMenu();
         }
     }
@@ -165,6 +175,7 @@ function init() {
 
     const authorizationCode = getAuthorizationCodeFromUrl();
     if (authorizationCode) {
+        console.log('Authorization code found, exchanging for token');
         exchangeAuthorizationCodeForAccessToken(authorizationCode);
     }
 }
