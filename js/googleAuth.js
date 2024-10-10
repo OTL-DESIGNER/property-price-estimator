@@ -66,10 +66,14 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
 function showLoginSuccessModal() {
     var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
     loginModal.show();
-    document.getElementById('g_id_signin').style.display = 'none';
-    google.accounts.id.disableAutoSelect();
+    const signInButton = document.getElementById('g_id_signin');
+    if (signInButton) {
+        signInButton.style.display = 'none';
+    }
+    if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+        google.accounts.id.disableAutoSelect();
+    }
 }
-
 function showErrorMessage(message) {
     const errorElement = document.getElementById('errorMessage');
     if (errorElement) {
@@ -112,7 +116,9 @@ function checkForThirdPartyCookies() {
 
 // Main initialization
 function init() {
-    initializeGoogleSignIn();
+    if (window.location.pathname === '/') {
+        initializeGoogleSignIn();
+    }
     checkForThirdPartyCookies();
 
     const authorizationCode = getAuthorizationCodeFromUrl();
@@ -120,13 +126,11 @@ function init() {
         exchangeAuthorizationCodeForAccessToken(authorizationCode);
     } else if (checkAuth()) {
         if (window.location.pathname === '/pricing_tool') {
-            // User is already authenticated and on the pricing tool page
             console.log('User is authenticated on pricing tool page');
         } else {
             window.location.href = '/pricing_tool';
         }
     } else if (window.location.pathname === '/pricing_tool') {
-        // User is not authenticated but on the pricing tool page
         window.location.href = '/';
     }
 }
