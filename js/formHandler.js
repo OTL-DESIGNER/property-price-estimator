@@ -50,6 +50,7 @@ document.getElementById('propertyForm').addEventListener('submit', function(even
         alert('Please provide the owner\'s email address.');
         return;
     }
+    const accessToken = localStorage.getItem('accessToken');
 
     if (accessToken) {
         // Send data to both sheets

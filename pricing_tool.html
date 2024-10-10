@@ -472,6 +472,14 @@
     <script src="js/main.js"></script> 
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('accessToken')) {
+                alert('You need to log in first.');
+                window.location.href = '/';
+            }
+        });
+    </script>
+    <script>
         if (typeof checkAuth === 'function' && !checkAuth()) {
             alert('Please log in with Google first.');
             window.location.href = '/';

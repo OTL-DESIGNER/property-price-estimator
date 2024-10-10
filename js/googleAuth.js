@@ -48,6 +48,7 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
         .then(data => {
             if (data.access_token) {
                 accessToken = data.access_token;
+                localStorage.setItem('accessToken', accessToken); // Store the access token
                 console.log('Access Token:', accessToken);
                 showLoginSuccessModal();
                 clearUrlParams();
@@ -91,13 +92,14 @@ function clearUrlParams() {
 
 function signOut() {
     localStorage.removeItem('googleCredential');
+    localStorage.removeItem('accessToken');
     accessToken = null;
     userEmail = null;
     window.location.href = '/';
 }
 
 function checkAuth() {
-    return !!localStorage.getItem('googleCredential');
+    return !!(localStorage.getItem('googleCredential') && localStorage.getItem('accessToken'));
 }
 
 function checkForThirdPartyCookies() {
