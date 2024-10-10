@@ -54,7 +54,7 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
         .then(data => {
             if (data.access_token) {
                 accessToken = data.access_token;
-                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('accessToken', accessToken); // Store in localStorage
                 console.log('Access Token:', accessToken);
                 clearUrlParams();
                 window.location.href = '/pricing_tool';
@@ -89,9 +89,8 @@ function clearUrlParams() {
     const newUrl = window.location.origin + window.location.pathname;
     window.history.pushState({}, document.title, newUrl);
 }
-// In googleAuth.js
 function checkAuth() {
-    const isAuthenticated = !!localStorage.getItem('googleCredential');
+    const isAuthenticated = !!(localStorage.getItem('googleCredential') && localStorage.getItem('accessToken'));
     console.log("checkAuth result:", isAuthenticated);
     return isAuthenticated;
 }

@@ -1,4 +1,13 @@
-function sendDataToOfferSheet(data, accessToken) {
+function getAccessToken() {
+    return localStorage.getItem('accessToken');
+}
+
+
+function sendDataToOfferSheet(data) {
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+        throw new Error('No access token available. Please log in again.');
+    }
     const spreadsheetId = '1RsJO6oJpA0-e2FeifhYSXsY2qXPb2np10hjFUs3HYuQ';
     const range = 'Offer!B7:B14';  // Updated range to exclude property address
     
@@ -50,7 +59,11 @@ function sendDataToOfferSheet(data, accessToken) {
 
 
 // function to send data to rehab estimation sheet
-function sendDataToGoogleSheets(data, accessToken) {
+function sendDataToGoogleSheets(data) {
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+        throw new Error('No access token available. Please log in again.');
+    }
     const spreadsheetId = '1RsJO6oJpA0-e2FeifhYSXsY2qXPb2np10hjFUs3HYuQ';
     const range = 'Rehab Estimation!B1:B35';  // Range covers only column B
 
@@ -131,6 +144,10 @@ function sendDataToGoogleSheets(data, accessToken) {
 
  // Fetch Calculated Results from Google Sheets
  function fetchCalculatedResults(accessToken) {
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+        throw new Error('No access token available. Please log in again.');
+    }
     const spreadsheetId = '1RsJO6oJpA0-e2FeifhYSXsY2qXPb2np10hjFUs3HYuQ';
     const range = 'Rehab Estimation!E32:F34'; // Include sheet name in the range
 
@@ -177,6 +194,10 @@ function sendDataToGoogleSheets(data, accessToken) {
 
 // Fetch Calculated Offer Results from Google Sheets
 function fetchOfferResults(accessToken, formData) {
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+        throw new Error('No access token available. Please log in again.');
+    }
     const spreadsheetId = '1RsJO6oJpA0-e2FeifhYSXsY2qXPb2np10hjFUs3HYuQ';
     const range = 'Offer!B7:E23';  // Updated range to include all needed cells
 
