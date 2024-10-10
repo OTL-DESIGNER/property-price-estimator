@@ -1,12 +1,7 @@
 // Form Submission Handler
 document.getElementById('propertyForm').addEventListener('submit', function(event) {
     event.preventDefault();
-  // Check if user is authenticated
-  if (!checkAuth()) {
-    alert('You need to log in first.');
-    window.location.href = '/';
-    return;
-}
+
     const formData = {
         ownerFirstName: document.getElementById('ownerFirstName').value,
         ownerLastName: document.getElementById('ownerLastName').value,
@@ -56,16 +51,15 @@ document.getElementById('propertyForm').addEventListener('submit', function(even
         return;
     }
 
-    // Remove the accessToken check and use checkAuth() instead
-    if (checkAuth()) {
+    if (accessToken) {
         // Send data to both sheets
         Promise.all([
-            sendDataToGoogleSheets(formData),
-            sendDataToOfferSheet(formData)
+            sendDataToGoogleSheets(formData, accessToken),
+            sendDataToOfferSheet(formData, accessToken)
         ]).then(() => {
             // Wait for 2 seconds to allow spreadsheet calculations to complete
             setTimeout(() => {
-                fetchAndPopulateOfferData(formData)
+                fetchAndPopulateOfferData(accessToken, formData)
                     .then(data => {
                         offerData = {
                             ...data,
