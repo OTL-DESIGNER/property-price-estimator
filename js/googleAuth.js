@@ -8,16 +8,17 @@ const googleRedirectUri = "https://property-price-estimator.netlify.app/pricing_
 
 // Google Sign-In initialization
 function initializeGoogleSignIn() {
+    console.log("Initializing Google Sign-In");
     if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-        const signinButton = document.getElementById('g_id_signin');
-        if (signinButton) {
-            google.accounts.id.initialize({
-                client_id: googleClientId,
-                callback: handleCredentialResponse
-            });
+        google.accounts.id.initialize({
+            client_id: googleClientId,
+            callback: handleCredentialResponse
+        });
 
+        const signInButton = document.getElementById('g_id_signin');
+        if (signInButton) {
             google.accounts.id.renderButton(
-                signinButton,
+                signInButton,
                 { theme: 'outline', size: 'large' }
             );
         } else {
@@ -28,17 +29,16 @@ function initializeGoogleSignIn() {
     }
 }
 
-
-window.addEventListener('load', initializeGoogleSignIn);
-
 // Handle the credential response from Google Sign-In
 function handleCredentialResponse(response) {
+    console.log("Received credential response");
     const decodedToken = JSON.parse(atob(response.credential.split('.')[1]));
     userEmail = decodedToken.email;
     localStorage.setItem('googleCredential', response.credential);
+    console.log("Stored googleCredential in localStorage");
 
-    const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${googleRedirectUri}&response_type=code&scope=https://www.googleapis.com/auth/spreadsheets`;
-    window.location.href = oauth2Url;
+    // Redirect to pricing tool immediately after receiving the credential
+    window.location.href = '/pricing_tool';
 }
 
 // Get authorization code from URL
@@ -49,19 +49,16 @@ function getAuthorizationCodeFromUrl() {
 
 // Exchange authorization code for access token
 function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
-    console.log("Starting token exchange...");
     fetch(`/.netlify/functions/googleAuth?code=${authorizationCode}`)
         .then(response => response.json())
         .then(data => {
             if (data.access_token) {
                 accessToken = data.access_token;
-                console.log('Access token received:', accessToken);
-                localStorage.setItem('accessToken', accessToken);  // Store the token for later use
-                showLoginSuccessModal();
+                localStorage.setItem('accessToken', accessToken); // Store in localStorage
+                console.log('Access Token:', accessToken);
                 clearUrlParams();
-                window.location.href = '/pricing_tool';  // Redirect to pricing tool
+                window.location.href = '/pricing_tool';
             } else {
-                console.error('No access token received');
                 throw new Error('No access token received');
             }
         })
@@ -70,24 +67,13 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
             showErrorMessage('Failed to retrieve access token: ' + error.message);
         });
 }
-
-
-
 // UI Functions
 function showLoginSuccessModal() {
     var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
     loginModal.show();
-    
-    const signinButton = document.getElementById('g_id_signin');
-    if (signinButton) {
-        signinButton.style.display = 'none';  // Ensure the button exists before modifying its style
-    } else {
-        console.error('Sign-in button element not found');
-    }
-
+    document.getElementById('g_id_signin').style.display = 'none';
     google.accounts.id.disableAutoSelect();
 }
-
 
 function showErrorMessage(message) {
     const errorElement = document.getElementById('errorMessage');
@@ -103,18 +89,19 @@ function clearUrlParams() {
     const newUrl = window.location.origin + window.location.pathname;
     window.history.pushState({}, document.title, newUrl);
 }
+function checkAuth() {
+    const isAuthenticated = !!(localStorage.getItem('googleCredential') && localStorage.getItem('accessToken'));
+    console.log("checkAuth result:", isAuthenticated);
+    return isAuthenticated;
+}
+
+// Make checkAuth globally accessible
+window.checkAuth = checkAuth;
 
 function signOut() {
     localStorage.removeItem('googleCredential');
-    accessToken = null;
-    userEmail = null;
     window.location.href = '/';
 }
-
-function checkAuth() {
-    return !!localStorage.getItem('googleCredential');
-}
-
 function checkForThirdPartyCookies() {
     try {
         document.cookie = "testcookie=test; SameSite=None; Secure";
@@ -131,22 +118,14 @@ function checkForThirdPartyCookies() {
 
 // Main initialization
 function init() {
-    initializeGoogleSignIn();
-    checkForThirdPartyCookies();
-
     const authorizationCode = getAuthorizationCodeFromUrl();
     if (authorizationCode) {
         exchangeAuthorizationCodeForAccessToken(authorizationCode);
     } else if (checkAuth()) {
-        if (window.location.pathname === '/pricing_tool') {
-            // User is already authenticated and on the pricing tool page
-            console.log('User is authenticated on pricing tool page');
-        } else {
-            window.location.href = '/pricing_tool';
-        }
-    } else if (window.location.pathname === '/pricing_tool') {
-        // User is not authenticated but on the pricing tool page
-        window.location.href = '/';
+        accessToken = localStorage.getItem('accessToken');
+        console.log('User is authenticated');
+    } else {
+        initializeGoogleSignIn();
     }
 }
 
