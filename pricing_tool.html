@@ -328,18 +328,16 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-            <div>
           <h5 class="modal-title" id="agentOfferLabel">Offer Presentation for Buying Agent</h5>
-        </div>
-        <div>
-           
-            <button type="button" class="btn btn-primary" id="downloadAgentOffer">
-              <i class="fa-solid fa-download"></i> Download PDF
-            </button>
-          </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+            <div class="d-flex align-items-center">
+                <!-- Wholesale Download Link -->
+                <a href="#" id="downloadAgentOffer" class="me-3 d-flex align-items-center text-decoration-none">
+                  <i class="fa-solid fa-download me-1"></i> <!--FILLER-->
+                </a>
+              </div>
           <p><strong>Client:</strong> <span id="clientNameAgent"></span></p>
           <p><strong>Property Address:</strong> <span id="propertyAddressAgent"></span></p>
           <p><strong>ARV:</strong> <span id="arvAgent"></span></p>
@@ -351,7 +349,8 @@
           <p><strong>Wholesale Buying Offer:</strong> <span id="wholesaleOfferAgent"></span></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="downloadAgentOffer"><i class="fa-sharp-duotone fa-solid fa-download"></i> Download Offer PDF</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="downloadAgentOffer"><i class="fa-sharp-duotone fa-solid fa-download"></i> PDF</button>
         </div>
       </div>
     </div>
@@ -362,21 +361,21 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-            <div>
-                <h5 class="modal-title" id="sellerOfferLabel">Offer Presentation for Seller</h5>
-              </div>
-              <div>
-                <!-- Buttons moved to the top -->
-                <button type="button" class="btn btn-primary" id="downloadWholesalePDF">
-                  <i class="fa-solid fa-download"></i> Wholesale PDF
-                </button>
-                <button type="button" class="btn btn-primary" id="downloadRetailPDF">
-                  <i class="fa-solid fa-download"></i> Retail PDF
-                </button>
-              </div>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+          <h5 class="modal-title" id="sellerOfferLabel">Offer Presentation for Seller</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
         <div class="modal-body">
+            <div class="d-flex align-items-center">
+                <!-- Wholesale Download Link -->
+                <a href="#" id="downloadWholesalePDF" class="me-3 d-flex align-items-center text-decoration-none">
+                  <i class="fa-solid fa-download me-1"></i> Wholesale
+                </a>
+      
+                <!-- Retail Download Link -->
+                <a href="#" id="downloadRetailPDF" class="d-flex align-items-center text-decoration-none">
+                  <i class="fa-solid fa-download me-1"></i> Retail
+                </a>
+              </div>
           <table class="table">
             <tr>
               <th>Client</th>
@@ -451,8 +450,8 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="downloadWholesalePDF"><i class="fa-sharp-duotone fa-solid fa-download"></i> Download Wholesale PDF</button>
-            <button type="button" class="btn btn-primary" id="downloadRetailPDF"><i class="fa-sharp-duotone fa-solid fa-download"></i> Download Retail PDF</button>
+            <button type="button" class="btn btn-primary" id="downloadWholesalePDF"><i class="fa-sharp-duotone fa-solid fa-download"></i> Wholesale</button>
+            <button type="button" class="btn btn-primary" id="downloadRetailPDF"><i class="fa-sharp-duotone fa-solid fa-download"></i> Retail</button>
           </div>
           
       </div>
