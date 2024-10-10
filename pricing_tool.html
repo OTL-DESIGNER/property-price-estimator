@@ -478,21 +478,22 @@
         </script>
             <!-- Your loading spinner script -->
     <script>
-        document.getElementById('propertyForm').addEventListener('submit', function (event) {
-            event.preventDefault(); 
-            const loadingSpinner = document.getElementById('loadingSpinner');
-            loadingSpinner.classList.remove('d-none');
-            setTimeout(function() {
-                loadingSpinner.classList.add('d-none');
-            }, 2000); 
-        });
+document.getElementById('propertyForm').addEventListener('submit', function (event) {
+    event.preventDefault(); 
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    loadingSpinner.classList.remove('d-none');
+    setTimeout(function() {
+        loadingSpinner.classList.add('d-none');
+    }, 2000); 
+});
     </script>
     <!-- Inline Script for Modal Backdrop Removal -->
     <script>
-        document.addEventListener('hidden.bs.modal', function (event) {
-            const backdrops = document.querySelectorAll('.modal-backdrop');
-            backdrops.forEach(backdrop => backdrop.remove());
-        });
+    document.addEventListener('hidden.bs.modal', function (event) {
+    const backdrops = document.querySelectorAll('.modal-backdrop');
+    backdrops.forEach(backdrop => backdrop.remove());
+    document.body.style.overflow = '';
+});
     </script>
 
 </body>
