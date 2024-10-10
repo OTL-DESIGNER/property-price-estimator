@@ -14,15 +14,19 @@ function initializeGoogleSignIn() {
             callback: handleCredentialResponse
         });
 
-        google.accounts.id.renderButton(
-            document.getElementById('g_id_signin'),
-            { theme: 'outline', size: 'large' }
-        );
+        const signInButton = document.getElementById('g_id_signin');
+        if (signInButton) {
+            google.accounts.id.renderButton(
+                signInButton,
+                { theme: 'outline', size: 'large' }
+            );
+        } else {
+            console.warn('Google Sign-In button element not found');
+        }
     } else {
         console.error('Google Sign-In script not loaded properly');
     }
 }
-
 window.addEventListener('load', initializeGoogleSignIn);
 
 // Handle the credential response from Google Sign-In
@@ -129,19 +133,11 @@ function checkForThirdPartyCookies() {
 
 // Main initialization
 function init() {
-    console.log('Init function called. Current path:', window.location.pathname);
-    
     if (window.location.pathname === '/') {
-        console.log('On home page, initializing Google Sign-In');
         initializeGoogleSignIn();
     } else if (window.location.pathname === '/pricing_tool') {
-        console.log('On pricing tool page, checking auth');
         if (!checkAuth()) {
-            console.log('Auth check failed, redirecting to home');
-            localStorage.setItem('redirectReason', 'Failed auth check on pricing tool page');
             window.location.href = '/';
-        } else {
-            console.log('Auth check passed on pricing tool page');
         }
     }
 
@@ -149,7 +145,6 @@ function init() {
 
     const authorizationCode = getAuthorizationCodeFromUrl();
     if (authorizationCode) {
-        console.log('Authorization code found, exchanging for token');
         exchangeAuthorizationCodeForAccessToken(authorizationCode);
     }
 }
