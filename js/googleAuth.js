@@ -60,9 +60,10 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
         .catch(error => {
             console.error('Error during token exchange:', error);
             showErrorMessage('Failed to retrieve access token: ' + error.message);
+            // Redirect to the login page if there's an error
+            window.location.href = '/';
         });
 }
-
 // UI Functions
 function showLoginSuccessModal() {
     var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
@@ -92,7 +93,9 @@ function signOut() {
 }
 
 function checkAuth() {
-    return !!(localStorage.getItem('googleCredential') && localStorage.getItem('accessToken'));
+    const googleCredential = localStorage.getItem('googleCredential');
+    const accessToken = localStorage.getItem('accessToken');
+    return !!(googleCredential && accessToken);
 }
 function checkForThirdPartyCookies() {
     try {
@@ -115,11 +118,12 @@ function init() {
         exchangeAuthorizationCodeForAccessToken(authorizationCode);
     } else if (checkAuth()) {
         accessToken = localStorage.getItem('accessToken');
-        if (window.location.pathname !== '/pricing_tool') {
-            window.location.href = '/pricing_tool';
-        }
+        console.log('User is authenticated');
+        // Don't redirect here, as we're already on the correct page
     } else if (window.location.pathname === '/pricing_tool') {
         window.location.href = '/';
+    } else {
+        initializeGoogleSignIn();
     }
 }
 

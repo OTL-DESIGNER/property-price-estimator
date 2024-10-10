@@ -65,13 +65,13 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="js/googleAuth.js"></script>
     <script>
-     window.onload = function() {
-            if (checkAuth()) {
-                window.location.href = '/pricing_tool';
-            } else {
-                initializeGoogleSignIn();
-            }
-        }
+   window.onload = function() {
+    if (checkAuth()) {
+        window.location.href = '/pricing_tool';
+    } else {
+        initializeGoogleSignIn();
+    }
+}
     </script>
 </body>
 </html>
