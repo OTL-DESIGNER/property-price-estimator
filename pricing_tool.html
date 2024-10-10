@@ -13,11 +13,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.18/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
-   
+    <div class="google-account-menu">
+        <div class="account-button" id="accountButton">
+            <img src="" alt="Profile" id="profileImage" class="profile-image">
+            <span id="userName"></span>
+            <i class="fas fa-caret-down"></i>
+        </div>
+        <div class="account-dropdown" id="accountDropdown">
+            <div class="account-info">
+                <img src="" alt="Profile" id="dropdownProfileImage" class="profile-image">
+                <div>
+                    <div id="dropdownUserName"></div>
+                    <div id="userEmail"></div>
+                </div>
+            </div>
+            <hr>
+            <button onclick="signOut()" class="sign-out-button">
+                <i class="fas fa-sign-out-alt"></i> Sign out
+            </button>
+        </div>
+    </div>
+    
     <div class="container mt-5">
         <h2 class="text-center">Property Purchase Price Form</h2>
 
-        <button onclick="signOut()" class="btn btn-secondary">Sign Out</button>
+
   
 
 <!-- Data Capture Form -->

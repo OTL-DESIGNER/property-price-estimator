@@ -1,6 +1,8 @@
 // Global variables
 let accessToken;
 let userEmail;
+let userName;
+let userProfileImage;
 
 // Configuration
 const googleClientId = "257537625805-2rpqesq2t71bma08teuigaeqjdi65pph.apps.googleusercontent.com";
@@ -9,7 +11,6 @@ const googleRedirectUri = "https://property-price-estimator.netlify.app/pricing_
 // Google Sign-In initialization
 function initializeGoogleSignIn() {
     if (window.location.pathname !== '/') {
-
         return;
     }
 
@@ -37,10 +38,13 @@ function initializeGoogleSignIn() {
 function handleCredentialResponse(response) {
     const decodedToken = JSON.parse(atob(response.credential.split('.')[1]));
     userEmail = decodedToken.email;
+    userName = decodedToken.name;
+    userProfileImage = decodedToken.picture;
     localStorage.setItem('googleCredential', response.credential);
-    localStorage.setItem('accessToken', response.credential); // Store credential as access token
+    localStorage.setItem('userName', userName);
+    localStorage.setItem('userEmail', userEmail);
+    localStorage.setItem('userProfileImage', userProfileImage);
 
-    console.log('Credential stored, redirecting to OAuth2 URL');
     const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${googleRedirectUri}&response_type=code&scope=https://www.googleapis.com/auth/spreadsheets`;
     window.location.href = oauth2Url;
 }
@@ -61,7 +65,6 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
                 accessToken = data.access_token;
                 localStorage.setItem('accessToken', accessToken);
                 console.log('Access Token received and stored:', accessToken);
-                showLoginSuccessModal();
                 clearUrlParams();
                 console.log('Redirecting to pricing tool page');
                 window.location.href = '/pricing_tool';
@@ -78,17 +81,6 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
 }
 
 // UI Functions
-function showLoginSuccessModal() {
-    var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-    loginModal.show();
-    const signInButton = document.getElementById('g_id_signin');
-    if (signInButton) {
-        signInButton.style.display = 'none';
-    }
-    if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-        google.accounts.id.disableAutoSelect();
-    }
-}
 function showErrorMessage(message) {
     const errorElement = document.getElementById('errorMessage');
     if (errorElement) {
@@ -107,17 +99,19 @@ function clearUrlParams() {
 function signOut() {
     localStorage.removeItem('googleCredential');
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userProfileImage');
     accessToken = null;
     userEmail = null;
+    userName = null;
+    userProfileImage = null;
     window.location.href = '/';
 }
 
 function checkAuth() {
     const googleCredential = localStorage.getItem('googleCredential');
     const accessToken = localStorage.getItem('accessToken');
-    console.log('Google Credential:', googleCredential ? 'Present' : 'Not present');
-    console.log('Access Token:', accessToken ? 'Present' : 'Not present');
-    console.log('Full Access Token:', accessToken);
     return !!(googleCredential && accessToken);
 }
 
@@ -135,6 +129,26 @@ function checkForThirdPartyCookies() {
     }
 }
 
+// Account menu functions
+function updateAccountMenu() {
+    const userName = localStorage.getItem('userName');
+    const userEmail = localStorage.getItem('userEmail');
+    const userProfileImage = localStorage.getItem('userProfileImage');
+
+    if (userName && userEmail && userProfileImage) {
+        document.getElementById('userName').textContent = userName.split(' ')[0];
+        document.getElementById('dropdownUserName').textContent = userName;
+        document.getElementById('userEmail').textContent = userEmail;
+        document.getElementById('profileImage').src = userProfileImage;
+        document.getElementById('dropdownProfileImage').src = userProfileImage;
+    }
+}
+
+function toggleAccountDropdown() {
+    const dropdown = document.getElementById('accountDropdown');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
 // Main initialization
 function init() {
     if (window.location.pathname === '/') {
@@ -142,6 +156,8 @@ function init() {
     } else if (window.location.pathname === '/pricing_tool') {
         if (!checkAuth()) {
             window.location.href = '/';
+        } else {
+            updateAccountMenu();
         }
     }
 
@@ -152,5 +168,22 @@ function init() {
         exchangeAuthorizationCodeForAccessToken(authorizationCode);
     }
 }
-// Run initialization when the page loads
+
+// Event listeners
 window.addEventListener('load', init);
+
+document.addEventListener('DOMContentLoaded', function() {
+    const accountButton = document.getElementById('accountButton');
+    if (accountButton) {
+        accountButton.addEventListener('click', toggleAccountDropdown);
+    }
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const accountMenu = document.querySelector('.google-account-menu');
+        const dropdown = document.getElementById('accountDropdown');
+        if (accountMenu && dropdown && !accountMenu.contains(event.target) && dropdown.style.display === 'block') {
+            dropdown.style.display = 'none';
+        }
+    });
+});
