@@ -99,7 +99,11 @@ function signOut() {
 }
 
 function checkAuth() {
-    return !!(localStorage.getItem('googleCredential') && localStorage.getItem('accessToken'));
+    const googleCredential = localStorage.getItem('googleCredential');
+    const accessToken = localStorage.getItem('accessToken');
+    console.log('Google Credential:', googleCredential ? 'Present' : 'Not present');
+    console.log('Access Token:', accessToken ? 'Present' : 'Not present');
+    return !!(googleCredential && accessToken);
 }
 
 function checkForThirdPartyCookies() {
@@ -120,20 +124,20 @@ function checkForThirdPartyCookies() {
 function init() {
     if (window.location.pathname === '/') {
         initializeGoogleSignIn();
+    } else if (window.location.pathname === '/pricing_tool') {
+        if (!checkAuth()) {
+            console.log('User not authenticated, redirecting to home page');
+            window.location.href = '/';
+        } else {
+            console.log('User is authenticated on pricing tool page');
+        }
     }
+
     checkForThirdPartyCookies();
 
     const authorizationCode = getAuthorizationCodeFromUrl();
     if (authorizationCode) {
         exchangeAuthorizationCodeForAccessToken(authorizationCode);
-    } else if (checkAuth()) {
-        if (window.location.pathname === '/pricing_tool') {
-            console.log('User is authenticated on pricing tool page');
-        } else {
-            window.location.href = '/pricing_tool';
-        }
-    } else if (window.location.pathname === '/pricing_tool') {
-        window.location.href = '/';
     }
 }
 

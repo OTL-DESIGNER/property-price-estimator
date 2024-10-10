@@ -473,18 +473,14 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            if (!localStorage.getItem('accessToken')) {
-                alert('You need to log in first.');
+            if (typeof checkAuth === 'function' && !checkAuth()) {
+                console.log('Authentication check failed, redirecting to home page');
                 window.location.href = '/';
+            } else {
+                console.log('Authentication check passed');
             }
         });
     </script>
-    <script>
-        if (typeof checkAuth === 'function' && !checkAuth()) {
-            alert('Please log in with Google first.');
-            window.location.href = '/';
-        }
-        </script>
             <!-- Your loading spinner script -->
     <script>
 document.getElementById('propertyForm').addEventListener('submit', function (event) {
