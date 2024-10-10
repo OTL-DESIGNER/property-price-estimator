@@ -8,6 +8,11 @@ const googleRedirectUri = "https://property-price-estimator.netlify.app/pricing_
 
 // Google Sign-In initialization
 function initializeGoogleSignIn() {
+    if (window.location.pathname !== '/') {
+
+        return;
+    }
+
     if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
         google.accounts.id.initialize({
             client_id: googleClientId,
@@ -21,13 +26,12 @@ function initializeGoogleSignIn() {
                 { theme: 'outline', size: 'large' }
             );
         } else {
-            console.warn('Google Sign-In button element not found');
+            console.warn('Google Sign-In button element not found on home page');
         }
     } else {
         console.error('Google Sign-In script not loaded properly');
     }
 }
-window.addEventListener('load', initializeGoogleSignIn);
 
 // Handle the credential response from Google Sign-In
 function handleCredentialResponse(response) {
