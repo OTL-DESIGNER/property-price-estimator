@@ -466,26 +466,20 @@ function blobToBase64(blob) {
 // Generate the PDF for Seller Presentation
 function setupPDFDownloadListeners() {
     // Remove existing event listeners
-    document.getElementById('downloadWholesalePDFTop').removeEventListener('click', generateWholesalePDF);
-    document.getElementById('downloadRetailPDFTop').removeEventListener('click', generateRetailPDF);
-    document.getElementById('downloadWholesalePDFBottom').removeEventListener('click', generateWholesalePDF);
-    document.getElementById('downloadRetailPDFTopBottom').removeEventListener('click', generateRetailPDF);
+    document.getElementById('downloadWholesalePDF').removeEventListener('click', generateWholesalePDF);
+    document.getElementById('downloadRetailPDF').removeEventListener('click', generateRetailPDF);
     document.getElementById('downloadWholesaleOfferLetter').removeEventListener('click', generateWholesaleOfferLetter);
     document.getElementById('downloadRetailOfferLetter').removeEventListener('click', generateRetailOfferLetter);
-    document.getElementById('downloadAgentOfferTop').removeEventListener('click', generateBuyingAgentPDF);
-    document.getElementById('downloadAgentOfferBottom').removeEventListener('click', generateBuyingAgentPDF);
+    document.getElementById('downloadAgentOffer').removeEventListener('click', generateBuyingAgentPDF);
     document.getElementById('emailWholesaleOfferLetter').removeEventListener('click', sendWholesaleOfferLetterEmail);
     document.getElementById('emailRetailOfferLetter').removeEventListener('click', sendRetailOfferLetterEmail);
 
     // Add new event listeners
-    document.getElementById('downloadWholesalePDFTop').addEventListener('click', generateWholesalePDF);
-    document.getElementById('downloadRetailPDFTop').addEventListener('click', generateRetailPDF);
-    document.getElementById('downloadWholesalePDFBottom').addEventListener('click', generateWholesalePDF);
-    document.getElementById('downloadRetailPDFBottom').addEventListener('click', generateRetailPDF);
+    document.getElementById('downloadWholesalePDF').addEventListener('click', generateWholesalePDF);
+    document.getElementById('downloadRetailPDF').addEventListener('click', generateRetailPDF);
     document.getElementById('downloadWholesaleOfferLetter').addEventListener('click', generateWholesaleOfferLetter);
     document.getElementById('downloadRetailOfferLetter').addEventListener('click', generateRetailOfferLetter);
-    document.getElementById('downloadAgentOfferTop').addEventListener('click', generateBuyingAgentPDF);
-    document.getElementById('downloadAgentOfferBottom').addEventListener('click', generateBuyingAgentPDF);
+    document.getElementById('downloadAgentOffer').addEventListener('click', generateBuyingAgentPDF);
     document.getElementById('emailWholesaleOfferLetter').addEventListener('click', sendWholesaleOfferLetterEmail);
     document.getElementById('emailRetailOfferLetter').addEventListener('click', sendRetailOfferLetterEmail);
 }
