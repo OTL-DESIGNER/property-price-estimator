@@ -473,11 +473,19 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            if (typeof checkAuth === 'function' && !checkAuth()) {
-                console.log('Authentication check failed, redirecting to home page');
-                window.location.href = '/';
+            console.log('Pricing tool page loaded');
+            if (typeof checkAuth === 'function') {
+                const isAuthenticated = checkAuth();
+                console.log('Authentication check result:', isAuthenticated);
+                if (!isAuthenticated) {
+                    console.log('Authentication check failed, redirecting to home page');
+                    localStorage.setItem('redirectReason', 'Failed auth check on pricing tool page load');
+                    window.location.href = '/';
+                } else {
+                    console.log('Authentication check passed');
+                }
             } else {
-                console.log('Authentication check passed');
+                console.error('checkAuth function not found');
             }
         });
     </script>

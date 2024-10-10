@@ -43,15 +43,17 @@ function getAuthorizationCodeFromUrl() {
 
 // Exchange authorization code for access token
 function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
+    console.log('Exchanging authorization code for access token');
     fetch(`/.netlify/functions/googleAuth?code=${authorizationCode}`)
         .then(response => response.json())
         .then(data => {
             if (data.access_token) {
                 accessToken = data.access_token;
-                localStorage.setItem('accessToken', accessToken); // Store the access token
-                console.log('Access Token:', accessToken);
+                localStorage.setItem('accessToken', accessToken);
+                console.log('Access Token received and stored:', accessToken);
                 showLoginSuccessModal();
                 clearUrlParams();
+                console.log('Redirecting to pricing tool page');
                 window.location.href = '/pricing_tool';
             } else {
                 throw new Error('No access token received');
@@ -60,6 +62,8 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
         .catch(error => {
             console.error('Error during token exchange:', error);
             showErrorMessage('Failed to retrieve access token: ' + error.message);
+            localStorage.setItem('redirectReason', 'Token exchange failed');
+            window.location.href = '/';
         });
 }
 
@@ -122,14 +126,19 @@ function checkForThirdPartyCookies() {
 
 // Main initialization
 function init() {
+    console.log('Init function called. Current path:', window.location.pathname);
+    
     if (window.location.pathname === '/') {
+        console.log('On home page, initializing Google Sign-In');
         initializeGoogleSignIn();
     } else if (window.location.pathname === '/pricing_tool') {
+        console.log('On pricing tool page, checking auth');
         if (!checkAuth()) {
-            console.log('User not authenticated, redirecting to home page');
+            console.log('Auth check failed, redirecting to home');
+            localStorage.setItem('redirectReason', 'Failed auth check on pricing tool page');
             window.location.href = '/';
         } else {
-            console.log('User is authenticated on pricing tool page');
+            console.log('Auth check passed on pricing tool page');
         }
     }
 
@@ -137,9 +146,9 @@ function init() {
 
     const authorizationCode = getAuthorizationCodeFromUrl();
     if (authorizationCode) {
+        console.log('Authorization code found, exchanging for token');
         exchangeAuthorizationCodeForAccessToken(authorizationCode);
     }
 }
-
 // Run initialization when the page loads
 window.addEventListener('load', init);

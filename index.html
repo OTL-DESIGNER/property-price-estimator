@@ -65,16 +65,14 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="js/googleAuth.js"></script>
     <script>
-//         function handleCredentialResponse(response) {
-//     localStorage.setItem('googleCredential', response.credential);
-//     window.location.href = '/pricing_tool';
-// }
-
-// window.onload = function() {
-//     if (localStorage.getItem('googleCredential')) {
-//         window.location.href = '/pricing_tool';
-//     }
-// }
+        document.addEventListener('DOMContentLoaded', function() {
+            const redirectReason = localStorage.getItem('redirectReason');
+            if (redirectReason) {
+                console.log('Redirect reason:', redirectReason);
+                alert('Redirected because: ' + redirectReason);
+                localStorage.removeItem('redirectReason');
+            }
+        });
     </script>
 </body>
 </html>
