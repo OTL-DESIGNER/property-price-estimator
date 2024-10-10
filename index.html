@@ -65,16 +65,16 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="js/googleAuth.js"></script>
     <script>
-        window.onload = function() {
-            console.log("Window loaded");
-            if (checkAuth()) {
-                console.log("User is authenticated, redirecting to pricing tool");
-                window.location.href = '/pricing_tool';
-            } else {
-                console.log("User is not authenticated, initializing Google Sign-In");
-                initializeGoogleSignIn();
-            }
-        }
+//         function handleCredentialResponse(response) {
+//     localStorage.setItem('googleCredential', response.credential);
+//     window.location.href = '/pricing_tool';
+// }
+
+// window.onload = function() {
+//     if (localStorage.getItem('googleCredential')) {
+//         window.location.href = '/pricing_tool';
+//     }
+// }
     </script>
 </body>
 </html>

@@ -8,37 +8,31 @@ const googleRedirectUri = "https://property-price-estimator.netlify.app/pricing_
 
 // Google Sign-In initialization
 function initializeGoogleSignIn() {
-    console.log("Initializing Google Sign-In");
     if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
         google.accounts.id.initialize({
             client_id: googleClientId,
             callback: handleCredentialResponse
         });
 
-        const signInButton = document.getElementById('g_id_signin');
-        if (signInButton) {
-            google.accounts.id.renderButton(
-                signInButton,
-                { theme: 'outline', size: 'large' }
-            );
-        } else {
-            console.error('Sign-in button element not found');
-        }
+        google.accounts.id.renderButton(
+            document.getElementById('g_id_signin'),
+            { theme: 'outline', size: 'large' }
+        );
     } else {
         console.error('Google Sign-In script not loaded properly');
     }
 }
 
+window.addEventListener('load', initializeGoogleSignIn);
+
 // Handle the credential response from Google Sign-In
 function handleCredentialResponse(response) {
-    console.log("Received credential response");
     const decodedToken = JSON.parse(atob(response.credential.split('.')[1]));
     userEmail = decodedToken.email;
     localStorage.setItem('googleCredential', response.credential);
-    console.log("Stored googleCredential in localStorage");
 
-    // Redirect to pricing tool immediately after receiving the credential
-    window.location.href = '/pricing_tool';
+    const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${googleRedirectUri}&response_type=code&scope=https://www.googleapis.com/auth/spreadsheets`;
+    window.location.href = oauth2Url;
 }
 
 // Get authorization code from URL
@@ -54,8 +48,8 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
         .then(data => {
             if (data.access_token) {
                 accessToken = data.access_token;
-                localStorage.setItem('accessToken', accessToken); // Store in localStorage
                 console.log('Access Token:', accessToken);
+                showLoginSuccessModal();
                 clearUrlParams();
                 window.location.href = '/pricing_tool';
             } else {
@@ -67,6 +61,7 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
             showErrorMessage('Failed to retrieve access token: ' + error.message);
         });
 }
+
 // UI Functions
 function showLoginSuccessModal() {
     var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
@@ -89,19 +84,18 @@ function clearUrlParams() {
     const newUrl = window.location.origin + window.location.pathname;
     window.history.pushState({}, document.title, newUrl);
 }
-function checkAuth() {
-    const isAuthenticated = !!(localStorage.getItem('googleCredential') && localStorage.getItem('accessToken'));
-    console.log("checkAuth result:", isAuthenticated);
-    return isAuthenticated;
-}
-
-// Make checkAuth globally accessible
-window.checkAuth = checkAuth;
 
 function signOut() {
     localStorage.removeItem('googleCredential');
+    accessToken = null;
+    userEmail = null;
     window.location.href = '/';
 }
+
+function checkAuth() {
+    return !!localStorage.getItem('googleCredential');
+}
+
 function checkForThirdPartyCookies() {
     try {
         document.cookie = "testcookie=test; SameSite=None; Secure";
@@ -118,14 +112,22 @@ function checkForThirdPartyCookies() {
 
 // Main initialization
 function init() {
+    initializeGoogleSignIn();
+    checkForThirdPartyCookies();
+
     const authorizationCode = getAuthorizationCodeFromUrl();
     if (authorizationCode) {
         exchangeAuthorizationCodeForAccessToken(authorizationCode);
     } else if (checkAuth()) {
-        accessToken = localStorage.getItem('accessToken');
-        console.log('User is authenticated');
-    } else {
-        initializeGoogleSignIn();
+        if (window.location.pathname === '/pricing_tool') {
+            // User is already authenticated and on the pricing tool page
+            console.log('User is authenticated on pricing tool page');
+        } else {
+            window.location.href = '/pricing_tool';
+        }
+    } else if (window.location.pathname === '/pricing_tool') {
+        // User is not authenticated but on the pricing tool page
+        window.location.href = '/';
     }
 }
 

@@ -7,26 +7,13 @@
 
       <!-- External Stylesheet -->
       <link href="css/style.css" rel="stylesheet">
-      <script src="https://kit.fontawesome.com/797a3be51e.js" crossorigin="anonymous"></script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.18/jspdf.plugin.autotable.min.js"></script>
-
 </head>
 <body>
-    <script src="js/googleAuth.js"></script>
-    <script>
-        window.onload = function() {
-            console.log("Pricing tool page loaded");
-            if (!checkAuth()) {
-                console.log("User is not authenticated, redirecting to login page");
-                window.location.href = '/';
-            } else {
-                console.log("User is authenticated, loading pricing tool");
-                // Load your pricing tool content here
-            }
-        }
-    </script>
+   
     <div class="container mt-5">
         <h2 class="text-center">Property Purchase Price Form</h2>
 
@@ -471,20 +458,19 @@
     </script> -->
 
     <!-- Custom Scripts -->
-    <!-- <script src="js/googleAuth.js"></script>  -->
+    <script src="js/googleAuth.js"></script>
     <script src="js/googleSheetsAPI.js"></script> 
     <script src="js/formHandler.js"></script>
     <script src="js/helpers.js"></script>
     <script src="js/offerData.js"></script>
     <script src="js/pdfEmailHandler.js"></script>
     <script src="js/main.js"></script> 
-    <!-- <script>
-        window.onload = function() {
-            if (!checkAuth()) {
-                window.location.href = '/';
-            }
+    <script>
+        if (typeof checkAuth === 'function' && !checkAuth()) {
+            alert('Please log in with Google first.');
+            window.location.href = '/';
         }
-    </script> -->
+        </script>
     <!-- Inline Script for Modal Backdrop Removal -->
     <script>
         document.addEventListener('hidden.bs.modal', function (event) {

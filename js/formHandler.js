@@ -1,11 +1,7 @@
 // Form Submission Handler
 document.getElementById('propertyForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    if (!checkAuth()) {
-        alert('You need to log in first.');
-        window.location.href = '/';
-        return;
-    }
+
     const formData = {
         ownerFirstName: document.getElementById('ownerFirstName').value,
         ownerLastName: document.getElementById('ownerLastName').value,
@@ -55,33 +51,37 @@ document.getElementById('propertyForm').addEventListener('submit', function(even
         return;
     }
 
-   // Send data to both sheets
-   Promise.all([
-    sendDataToGoogleSheets(formData),
-    sendDataToOfferSheet(formData)
-]).then(() => {
-    // Wait for 2 seconds to allow spreadsheet calculations to complete
-    setTimeout(() => {
-        fetchAndPopulateOfferData(formData)
-            .then(data => {
-                offerData = {
-                    ...data,
-                    ownerEmail: formData.ownerEmail,
-                    clientName: `${formData.ownerFirstName} ${formData.ownerLastName}`
-                };
-                console.log('Offer Data:', offerData);
-                showOfferOptionsModal();
-                document.getElementById('viewOffersButton').style.display = 'block';
-            })
-            .catch(error => {
-                console.error('Error fetching offer data:', error);
-                alert('An error occurred while fetching the offer data. Please try again.');
-            });
-    }, 2000);
-}).catch(error => {
-    console.error('Error during data submission:', error);
-    alert('An error occurred while submitting the data. Please try again.');
-});
+    if (accessToken) {
+        // Send data to both sheets
+        Promise.all([
+            sendDataToGoogleSheets(formData, accessToken),
+            sendDataToOfferSheet(formData, accessToken)
+        ]).then(() => {
+            // Wait for 2 seconds to allow spreadsheet calculations to complete
+            setTimeout(() => {
+                fetchAndPopulateOfferData(accessToken, formData)
+                    .then(data => {
+                        offerData = {
+                            ...data,
+                            ownerEmail: formData.ownerEmail,
+                            clientName: `${formData.ownerFirstName} ${formData.ownerLastName}`
+                        };
+                        console.log('Offer Data:', offerData);
+                        showOfferOptionsModal();
+                        document.getElementById('viewOffersButton').style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Error fetching offer data:', error);
+                        alert('An error occurred while fetching the offer data. Please try again.');
+                    });
+            }, 2000);
+        }).catch(error => {
+            console.error('Error during data submission:', error);
+            alert('An error occurred while submitting the data. Please try again.');
+        });
+    } else {
+        alert('You need to log in first.');
+    }
 });
 
 // Form validation
