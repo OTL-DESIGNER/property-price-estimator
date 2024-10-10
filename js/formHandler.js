@@ -56,15 +56,16 @@ document.getElementById('propertyForm').addEventListener('submit', function(even
         return;
     }
 
-    if (accessToken) {
+    // Remove the accessToken check and use checkAuth() instead
+    if (checkAuth()) {
         // Send data to both sheets
         Promise.all([
-            sendDataToGoogleSheets(formData, accessToken),
-            sendDataToOfferSheet(formData, accessToken)
+            sendDataToGoogleSheets(formData),
+            sendDataToOfferSheet(formData)
         ]).then(() => {
             // Wait for 2 seconds to allow spreadsheet calculations to complete
             setTimeout(() => {
-                fetchAndPopulateOfferData(accessToken, formData)
+                fetchAndPopulateOfferData(formData)
                     .then(data => {
                         offerData = {
                             ...data,
