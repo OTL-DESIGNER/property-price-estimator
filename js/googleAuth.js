@@ -26,8 +26,6 @@ function initializeGoogleSignIn() {
     }
 }
 
-window.addEventListener('load', initializeGoogleSignIn);
-
 // Handle the credential response from Google Sign-In
 function handleCredentialResponse(response) {
     const decodedToken = JSON.parse(atob(response.credential.split('.')[1]));
@@ -53,7 +51,6 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
                 accessToken = data.access_token;
                 localStorage.setItem('accessToken', accessToken);
                 console.log('Access Token:', accessToken);
-                showLoginSuccessModal();
                 clearUrlParams();
                 window.location.href = '/pricing_tool';
             } else {
@@ -88,18 +85,15 @@ function clearUrlParams() {
     const newUrl = window.location.origin + window.location.pathname;
     window.history.pushState({}, document.title, newUrl);
 }
-
 function signOut() {
     localStorage.removeItem('googleCredential');
-    accessToken = null;
-    userEmail = null;
+    localStorage.removeItem('accessToken');
     window.location.href = '/';
 }
 
 function checkAuth() {
     return !!(localStorage.getItem('googleCredential') && localStorage.getItem('accessToken'));
 }
-
 function checkForThirdPartyCookies() {
     try {
         document.cookie = "testcookie=test; SameSite=None; Secure";
@@ -116,17 +110,12 @@ function checkForThirdPartyCookies() {
 
 // Main initialization
 function init() {
-    initializeGoogleSignIn();
-    checkForThirdPartyCookies();
-
     const authorizationCode = getAuthorizationCodeFromUrl();
     if (authorizationCode) {
         exchangeAuthorizationCodeForAccessToken(authorizationCode);
     } else if (checkAuth()) {
         accessToken = localStorage.getItem('accessToken');
-        if (window.location.pathname === '/pricing_tool') {
-            console.log('User is authenticated on pricing tool page');
-        } else {
+        if (window.location.pathname !== '/pricing_tool') {
             window.location.href = '/pricing_tool';
         }
     } else if (window.location.pathname === '/pricing_tool') {

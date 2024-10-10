@@ -14,7 +14,14 @@
 
 </head>
 <body>
-   
+    <script src="js/googleAuth.js"></script>
+    <script>
+        window.onload = function() {
+            if (!checkAuth()) {
+                window.location.href = '/';
+            }
+        }
+    </script>
     <div class="container mt-5">
         <h2 class="text-center">Property Purchase Price Form</h2>
 
@@ -459,19 +466,19 @@
     </script> -->
 
     <!-- Custom Scripts -->
-    <script src="js/googleAuth.js"></script>
+   
     <script src="js/googleSheetsAPI.js"></script> 
     <script src="js/formHandler.js"></script>
     <script src="js/helpers.js"></script>
     <script src="js/offerData.js"></script>
     <script src="js/pdfEmailHandler.js"></script>
     <script src="js/main.js"></script> 
-    <script>
+    <!-- <script>
         if (typeof checkAuth === 'function' && !checkAuth()) {
             alert('Please log in with Google first.');
             window.location.href = '/';
         }
-        </script>
+        </script> -->
     <!-- Inline Script for Modal Backdrop Removal -->
     <script>
         document.addEventListener('hidden.bs.modal', function (event) {
