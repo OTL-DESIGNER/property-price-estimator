@@ -420,8 +420,8 @@ async function sendOfferLetterEmail(type) {
         // Prepare the email data object
         const emailData = {
             email: offerData.ownerEmail, // Recipient email (from offerData)
-            subject: `${type} Offer Letter for ${fullAddress}`, // Email subject
-            message: `Please find attached the ${type} offer letter for ${fullAddress}.`, // Email body
+            subject: `${type} Offer for ${fullAddress}`, // Email subject
+            message: `Please find attached the ${type} offer for ${fullAddress}.`, // Email body
             attachment: {
                 content: pdfBase64, // Base64 encoded PDF
                 filename: `${type}_Offer_Letter_${offerData.clientName.replace(/\s+/g, '_')}.pdf`,
