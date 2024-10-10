@@ -9,19 +9,25 @@ const googleRedirectUri = "https://property-price-estimator.netlify.app/pricing_
 // Google Sign-In initialization
 function initializeGoogleSignIn() {
     if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-        google.accounts.id.initialize({
-            client_id: googleClientId,
-            callback: handleCredentialResponse
-        });
+        const signinButton = document.getElementById('g_id_signin');
+        if (signinButton) {
+            google.accounts.id.initialize({
+                client_id: googleClientId,
+                callback: handleCredentialResponse
+            });
 
-        google.accounts.id.renderButton(
-            document.getElementById('g_id_signin'),
-            { theme: 'outline', size: 'large' }
-        );
+            google.accounts.id.renderButton(
+                signinButton,
+                { theme: 'outline', size: 'large' }
+            );
+        } else {
+            console.error('Sign-in button element not found');
+        }
     } else {
         console.error('Google Sign-In script not loaded properly');
     }
 }
+
 
 window.addEventListener('load', initializeGoogleSignIn);
 
@@ -66,9 +72,17 @@ function exchangeAuthorizationCodeForAccessToken(authorizationCode) {
 function showLoginSuccessModal() {
     var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
     loginModal.show();
-    document.getElementById('g_id_signin').style.display = 'none';
+    
+    const signinButton = document.getElementById('g_id_signin');
+    if (signinButton) {
+        signinButton.style.display = 'none';  // Ensure the button exists before modifying its style
+    } else {
+        console.error('Sign-in button element not found');
+    }
+
     google.accounts.id.disableAutoSelect();
 }
+
 
 function showErrorMessage(message) {
     const errorElement = document.getElementById('errorMessage');
