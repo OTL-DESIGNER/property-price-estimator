@@ -568,6 +568,10 @@ document.getElementById('propertyForm').addEventListener('submit', function (eve
         document.addEventListener('shown.bs.modal', function (event) {
             document.body.classList.add('modal-open');
         });
+        document.addEventListener('hidden.bs.modal', function (event) {
+    document.body.style.paddingRight = '';
+    document.body.style.overflow = '';
+});
         </script>
     <script>
         document.addEventListener('hidden.bs.modal', function (event) {
