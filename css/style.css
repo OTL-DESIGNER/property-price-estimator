@@ -280,3 +280,37 @@ hr {
     border-top: 1px solid #dadce0;
     margin: 10px 0;
 }
+
+body {
+    padding-top: 60px; /* Add padding to account for fixed header */
+}
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+.logo {
+    height: 40px;
+}
+.google-account-menu {
+    margin-bottom: 0;
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}
+.footer .logo {
+    height: 30px;
+}

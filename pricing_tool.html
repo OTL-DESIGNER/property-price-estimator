@@ -13,27 +13,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.18/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
-    <div class="google-account-menu mb-2">
-        <div class="account-button" id="accountButton">
-            <img src="" alt="Profile" id="profileImage" class="profile-image">
-            <span id="userName"></span>
-            <i class="fas fa-caret-down"></i>
-        </div>
-        <div class="account-dropdown" id="accountDropdown">
-            <div class="account-info">
-                <img src="" alt="Profile" id="dropdownProfileImage" class="profile-image">
-                <div>
-                    <div id="dropdownUserName"></div>
-                    <div id="userEmail"></div>
-                </div>
+    <header class="header">
+        <img src="images/OldR3-logo.jpeg" alt="OldR3 Logo" class="logo">
+        <div class="google-account-menu">
+            <div class="account-button" id="accountButton">
+                <img src="" alt="Profile" id="profileImage" class="profile-image">
+                <span id="userName"></span>
+                <i class="fas fa-caret-down"></i>
             </div>
-            <hr>
-            <button onclick="signOut()" class="sign-out-button">
-                <i class="fas fa-sign-out-alt"></i> Sign out
-            </button>
+            <div class="account-dropdown" id="accountDropdown">
+                <div class="account-info">
+                    <img src="" alt="Profile" id="dropdownProfileImage" class="profile-image">
+                    <div>
+                        <div id="dropdownUserName"></div>
+                        <div id="userEmail"></div>
+                    </div>
+                </div>
+                <hr>
+                <button onclick="signOut()" class="sign-out-button">
+                    <i class="fas fa-sign-out-alt"></i> Sign out
+                </button>
+            </div>
         </div>
-    </div>
-
+    </header>
     <div class="container mt-5">
         <h2 class="text-center">Property Purchase Price Form</h2>
 
@@ -324,6 +326,11 @@
           </div>
         </div>
        <div id="responseMessage"></div>
+
+       <footer class="footer">
+        <img src="images/OldR3-logo.jpeg" alt="OldR3 Logo" class="logo">
+        <a href="https://oldr3.com" class="btn btn-primary">Back to OldR3</a>
+    </footer>
 
 <!-- Modal to show offer options after form submission -->
 <div class="modal fade" id="offerOptionsModal" tabindex="-1" aria-labelledby="offerOptionsLabel" aria-hidden="true">
