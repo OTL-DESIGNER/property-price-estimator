@@ -1,10 +1,14 @@
 // Utility functions
 function toggleLoadingIndicator(show) {
-    const loadingSpinner = document.getElementById('loadingSpinner');
+    const loadingSpinner = document.getElementById('pdfLoadingSpinner');
+    const buttons = document.querySelectorAll('#offerOptionsModal button');
+    
     if (show) {
         loadingSpinner.classList.remove('d-none');
+        buttons.forEach(button => button.disabled = true);
     } else {
         loadingSpinner.classList.add('d-none');
+        buttons.forEach(button => button.disabled = false);
     }
 }
 
