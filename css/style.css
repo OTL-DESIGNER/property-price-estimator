@@ -69,7 +69,17 @@ h2 {
     letter-spacing: 1px;
     transition: all 0.3s ease;
 }
+.btn-primary {
+    font-size: .9em;
+}
 
+.btn-success {
+    font-size: .9em;
+}
+
+.btn-danger {
+    font-size: .9em;
+}
 .btn-primary {
     background-color: #3498db;
     border-color: #3498db;
