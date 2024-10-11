@@ -39,7 +39,7 @@ async function generatePDF(type) {
         doc.text("OldR3", pageWidth / 2, 38, { align: "center" });
         doc.setFontSize(8);
         doc.setFont("helvetica", "normal");
-        doc.text("123 Real Estate St, City, State 12345 | (123) 456-7890 | www.oldr3.com", pageWidth / 2, 43, { align: "center" });
+        doc.text("3300 SW 14th Place Suite 3, Boynton Beach, FL 33426 | (800) 414-2747 | www.oldr3.com", pageWidth / 2, 43, { align: "center" });
 
         // Title and Client Info
         doc.setTextColor(0, 0, 0);
@@ -171,7 +171,7 @@ async function generateBuyingAgentPDF() {
     doc.text("OldR3", pageWidth / 2, 43, { align: "center" });
     doc.setFontSize(8);
     doc.setFont("helvetica", "normal");
-    doc.text("123 Real Estate St, City, State 12345 | (123) 456-7890 | www.oldr3.com", pageWidth / 2, 48, { align: "center" });
+    doc.text("3300 SW 14th Place Suite 3, Boynton Beach, FL 33426 | (800) 414-2747 | www.oldr3.com", pageWidth / 2, 48, { align: "center" });
 
     // Title
     doc.setTextColor(0, 0, 0);
@@ -245,7 +245,7 @@ async function generateOfferLetterPDF(type, returnBlob = false) {
     doc.text("OldR3", pageWidth / 2, 43, { align: "center" });
     doc.setFontSize(8);
     doc.setFont("helvetica", "normal");
-    doc.text("123 Real Estate St, City, State 12345 | (123) 456-7890 | www.oldr3.com", pageWidth / 2, 48, { align: "center" });
+    doc.text("3300 SW 14th Place Suite 3, Boynton Beach, FL 33426 | (800) 414-2747 | www.oldr3.com", pageWidth / 2, 48, { align: "center" });
 
     // Reset text color for main content
     doc.setTextColor(0, 0, 0);
@@ -340,7 +340,7 @@ async function generateOfferLetterPDFBlob(type) {
     doc.text("OldR3", pageWidth / 2, 43, { align: "center" });
     doc.setFontSize(8);
     doc.setFont("helvetica", "normal");
-    doc.text("123 Real Estate St, City, State 12345 | (123) 456-7890 | www.oldr3.com", pageWidth / 2, 48, { align: "center" });
+    doc.text("3300 SW 14th Place Suite 3, Boynton Beach, FL 33426 | (800) 414-2747 | www.oldr3.com", pageWidth / 2, 48, { align: "center" });
 
     // Reset text color for main content
     doc.setTextColor(0, 0, 0);
