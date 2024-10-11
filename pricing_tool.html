@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Property Purchase Price Web Application</title>
 
       <!-- External Stylesheet -->
@@ -311,7 +311,7 @@
   </button>
   <div id="errorMessage" style="display: none; color: red; margin-top: 10px;"></div>
 
-<footer class="footer">
+<footer class="footer mt-auto py-3">
     <div class="container">
         <div class="row">
             <div class="col-md-4">
@@ -565,12 +565,19 @@ document.getElementById('propertyForm').addEventListener('submit', function (eve
     </script>
     <!-- Inline Script for Modal Backdrop Removal -->
     <script>
-    document.addEventListener('hidden.bs.modal', function (event) {
-    const backdrops = document.querySelectorAll('.modal-backdrop');
-    backdrops.forEach(backdrop => backdrop.remove());
-    document.body.style.overflow = '';
-});
-    </script>
+        document.addEventListener('shown.bs.modal', function (event) {
+            document.body.classList.add('modal-open');
+        });
+        </script>
+    <script>
+        document.addEventListener('hidden.bs.modal', function (event) {
+            const backdrops = document.querySelectorAll('.modal-backdrop');
+            backdrops.forEach(backdrop => backdrop.remove());
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+            document.body.classList.remove('modal-open');
+        });
+        </script>
 
 </body>
 </html>
