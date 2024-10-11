@@ -4,6 +4,10 @@ body {
     font-family: 'Arial', sans-serif;
     color: #333;
     line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+
 }
 
 .container {
@@ -14,6 +18,7 @@ body {
     margin-top: 50px;
     margin-bottom: 50px;
     transition: all 0.3s ease;
+    flex: 1;
 }
 
 .container:hover {
@@ -307,9 +312,14 @@ body {
     background-color: #333;
     color: #fff;
     padding: 40px 0 0;
-    margin-top: 40px;
+    width: 100%;
+    margin-top: auto;
 }
-
+.footer .container {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+}
 .footer h5 {
     color: #fff;
     margin-bottom: 15px;
