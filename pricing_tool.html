@@ -33,7 +33,7 @@
             </button>
         </div>
     </div>
-    
+
     <div class="container mt-5">
         <h2 class="text-center">Property Purchase Price Form</h2>
 
@@ -491,27 +491,28 @@
     <script src="js/pdfEmailHandler.js"></script>
     <script src="js/main.js"></script> 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Pricing tool page loaded');
-            if (typeof checkAuth === 'function') {
-                console.log('checkAuth function found');
-                const isAuthenticated = checkAuth();
-                console.log('Authentication check result:', isAuthenticated);
-                if (!isAuthenticated) {
-                    console.log('Authentication check failed, redirecting to home page');
-                    localStorage.setItem('redirectReason', 'Failed auth check on pricing tool page load');
-                    window.location.href = '/';
-                } else {
-                    console.log('Authentication check passed');
-                }
-            } else {
-                console.error('checkAuth function not found');
-                localStorage.setItem('redirectReason', 'checkAuth function not found on pricing tool page');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Pricing tool page loaded');
+        if (typeof checkAuth === 'function') {
+            console.log('checkAuth function found');
+            const isAuthenticated = checkAuth();
+            console.log('Authentication check result:', isAuthenticated);
+            if (!isAuthenticated) {
+                console.log('Authentication check failed, redirecting to home page');
+                localStorage.setItem('redirectReason', 'Failed auth check on pricing tool page load');
                 window.location.href = '/';
+            } else {
+                console.log('Authentication check passed');
+                updateAccountMenu();
             }
-        });
-    </script>
+        } else {
+            console.error('checkAuth function not found');
+            localStorage.setItem('redirectReason', 'checkAuth function not found on pricing tool page');
+            window.location.href = '/';
+        }
+    });
+</script>
             <!-- Your loading spinner script -->
     <script>
 document.getElementById('propertyForm').addEventListener('submit', function (event) {

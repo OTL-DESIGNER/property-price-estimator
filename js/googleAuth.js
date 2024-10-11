@@ -44,8 +44,7 @@ function handleCredentialResponse(response) {
     localStorage.setItem('userName', userName);
     localStorage.setItem('userEmail', userEmail);
     localStorage.setItem('userProfileImage', userProfileImage);
-
-    // Don't set the access token here, it will be set after exchanging the code
+    localStorage.setItem('tempAccessToken', response.credential); // Store temporary access token
 
     const oauth2Url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${googleRedirectUri}&response_type=code&scope=https://www.googleapis.com/auth/spreadsheets`;
     window.location.href = oauth2Url;
@@ -112,7 +111,7 @@ function signOut() {
 
 function checkAuth() {
     const googleCredential = localStorage.getItem('googleCredential');
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = localStorage.getItem('accessToken') || localStorage.getItem('tempAccessToken');
     console.log('Google Credential:', googleCredential ? 'Present' : 'Not present');
     console.log('Access Token:', accessToken ? 'Present' : 'Not present');
     return !!(googleCredential && accessToken);
