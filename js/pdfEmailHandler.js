@@ -1,4 +1,44 @@
+// Utility functions
+function toggleLoadingIndicator(show) {
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    if (show) {
+        loadingSpinner.classList.remove('d-none');
+    } else {
+        loadingSpinner.classList.add('d-none');
+    }
+}
+
+// Function to get high-resolution image data URL
+async function getHighResImageDataUrl(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            // Increase canvas size for higher resolution
+            canvas.width = this.width * 2;
+            canvas.height = this.height * 2;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL('image/jpeg', 1.0)); // Use maximum quality
+        };
+        img.onerror = reject;
+        img.src = url;
+    });
+}
+// Helper function to convert Blob to Base64
+function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+}
+
+// PDF Generation Functions
 async function generatePDF(type) {
+    toggleLoadingIndicator(true);
     console.log(`Generating ${type} PDF`);
     console.log('Current offerData:', offerData);
 
@@ -10,13 +50,13 @@ async function generatePDF(type) {
 
     try {
         const logoUrl = '/images/OldR3-logo.jpeg';
-        const logoDataUrl = await getImageDataUrl(logoUrl);
+        const logoDataUrl = await getHighResImageDataUrl(logoUrl);
 
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
         const pageWidth = doc.internal.pageSize.width;
         const pageHeight = doc.internal.pageSize.height;
-        const margin = 10;
+        const margin = 5;
 
         // Set document properties
         doc.setProperties({
@@ -27,8 +67,10 @@ async function generatePDF(type) {
             creator: 'OldR3'
         });
 
-        // Add logo
-        doc.addImage(logoDataUrl, 'JPEG', margin, 5, 40, 20);
+     // Adjust logo dimensions
+     const logoWidth = 50;  // Increased from 40
+     const logoHeight = 20; // Maintain aspect ratio
+     doc.addImage(logoDataUrl, 'JPEG', margin, 10, logoWidth, logoHeight);
 
         // Header
         doc.setFillColor(39, 174, 96);
@@ -117,30 +159,15 @@ async function generatePDF(type) {
     } catch (error) {
         console.error('Error generating PDF:', error);
         alert('An error occurred while generating the PDF. Please try again.');
+    } finally {
+        toggleLoadingIndicator(false);
     }
 }
-// Function to convert image to data URL
-async function getImageDataUrl(url) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = 'Anonymous';
-        img.onload = function() {
-            const canvas = document.createElement('canvas');
-            canvas.width = this.width;
-            canvas.height = this.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(this, 0, 0);
-            resolve(canvas.toDataURL('image/jpeg'));
-        };
-        img.onerror = reject;
-        img.src = url;
-    });
-}
-
 
 // Generate agent offer PDF
-
 async function generateBuyingAgentPDF() {
+    toggleLoadingIndicator(true);
+    try {
     console.log("Generating Buying Agent PDF");
     console.log("Current offerData:", offerData);
 
@@ -151,7 +178,7 @@ async function generateBuyingAgentPDF() {
     }
 
     const logoUrl = '/images/OldR3-logo.jpeg';
-    const logoDataUrl = await getImageDataUrl(logoUrl);
+    const logoDataUrl = await getHighResImageDataUrl(logoUrl);
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -159,8 +186,10 @@ async function generateBuyingAgentPDF() {
     const pageHeight = doc.internal.pageSize.height;
     const margin = 20;
 
-    // Add logo
-    doc.addImage(logoDataUrl, 'JPEG', margin, 10, 40, 20);
+    // Adjust logo dimensions
+    const logoWidth = 50;  // Increased from 40
+    const logoHeight = 20; // Maintain aspect ratio
+    doc.addImage(logoDataUrl, 'JPEG', margin, 10, logoWidth, logoHeight);
 
     // Add header
     doc.setFillColor(39, 174, 96);
@@ -212,20 +241,27 @@ async function generateBuyingAgentPDF() {
 
     // Save the PDF
     doc.save(`Buying_Agent_Presentation_${offerData.clientName.replace(/\s+/g, '_')}.pdf`);
+} catch (error) {
+    console.error('Error generating Buying Agent PDF:', error);
+    alert('An error occurred while generating the PDF. Please try again.');
+} finally {
+    toggleLoadingIndicator(false);
 }
-
+}
 
 // Generate Offer Letter
 async function generateOfferLetterPDF(type, returnBlob = false) {
-    console.log(`Generating ${type} Offer Letter PDF`);
-    if (!offerData) {
-        console.error('Offer data is not available');
-        alert('Unable to generate PDF. Please try submitting the form again.');
-        return;
-    }
+    toggleLoadingIndicator(true);
+    try {
+        console.log(`Generating ${type} Offer Letter PDF`);
+        if (!offerData) {
+            console.error('Offer data is not available');
+            alert('Unable to generate PDF. Please try submitting the form again.');
+            return;
+        }
 
     const logoUrl = '/images/OldR3-logo.jpeg';
-    const logoDataUrl = await getImageDataUrl(logoUrl);
+    const logoDataUrl = await getHighResImageDataUrl(logoUrl);
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -233,8 +269,10 @@ async function generateOfferLetterPDF(type, returnBlob = false) {
     const pageHeight = doc.internal.pageSize.height;
     const margin = 20;
 
-    // Add logo
-    doc.addImage(logoDataUrl, 'JPEG', margin, 10, 40, 20);
+  // Adjust logo dimensions
+  const logoWidth = 50;  // Increased from 40
+  const logoHeight = 20; // Maintain aspect ratio
+  doc.addImage(logoDataUrl, 'JPEG', margin, 10, logoWidth, logoHeight);
 
     // Add header
     doc.setFillColor(39, 174, 96);
@@ -309,18 +347,27 @@ async function generateOfferLetterPDF(type, returnBlob = false) {
     } else {
         doc.save(`${type}_Offer_Letter_${offerData.clientName.replace(/\s+/g, '_')}.pdf`);
     }
+    } catch (error) {
+    console.error('Error generating PDF:', error);
+    alert('An error occurred while generating the PDF. Please try again.');
+    } finally {
+    toggleLoadingIndicator(false);
+    }
 }
+
 
 // generate offer letter PDF blob
 async function generateOfferLetterPDFBlob(type) {
-    console.log(`Generating ${type} Offer Letter PDF Blob`);
-    if (!offerData) {
-        console.error('Offer data is not available');
-        throw new Error('Unable to generate PDF. Offer data is not available.');
-    }
+    toggleLoadingIndicator(true);
+    try {
+        console.log(`Generating ${type} Offer Letter PDF Blob`);
+        if (!offerData) {
+            console.error('Offer data is not available');
+            throw new Error('Unable to generate PDF. Offer data is not available.');
+        }
 
     const logoUrl = '/images/OldR3-logo.jpeg';
-    const logoDataUrl = await getImageDataUrl(logoUrl);
+    const logoDataUrl = await getHighResImageDataUrl(logoUrl);
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -328,8 +375,10 @@ async function generateOfferLetterPDFBlob(type) {
     const pageHeight = doc.internal.pageSize.height;
     const margin = 20;
 
-    // Add logo
-    doc.addImage(logoDataUrl, 'JPEG', margin, 10, 40, 20);
+ // Adjust logo dimensions
+ const logoWidth = 50;  // Increased from 40
+ const logoHeight = 20; // Maintain aspect ratio
+ doc.addImage(logoDataUrl, 'JPEG', margin, 10, logoWidth, logoHeight);
 
     // Add header
     doc.setFillColor(39, 174, 96);
@@ -401,10 +450,18 @@ async function generateOfferLetterPDFBlob(type) {
 
     // Return the PDF as a blob
     return doc.output('blob');
+} catch (error) {
+    console.error('Error generating PDF blob:', error);
+    alert('An error occurred while generating the PDF. Please try again.');
+    throw error; // Re-throw the error so the calling function knows it failed
+} finally {
+    toggleLoadingIndicator(false);
+}
 }
 
-// Modify the sendOfferLetterEmail function to call the sendEmail function
+// Email Sending Function
 async function sendOfferLetterEmail(type) {
+    toggleLoadingIndicator(true);
     try {
         if (!offerData || !offerData.ownerEmail) {
             throw new Error('Owner email is missing. Cannot send email.');
@@ -430,7 +487,6 @@ async function sendOfferLetterEmail(type) {
             }
         };
 
-        // Send the email by making a POST request to the sendEmail function
         const response = await fetch('/.netlify/functions/sendEmail', {
             method: 'POST',
             headers: {
@@ -450,20 +506,14 @@ async function sendOfferLetterEmail(type) {
     } catch (error) {
         console.error('Error sending email:', error);
         alert('An error occurred while sending the email. Please try again.');
+    } finally {
+        toggleLoadingIndicator(false);
     }
 }
-// Helper function to convert Blob to Base64
-function blobToBase64(blob) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result.split(',')[1]);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-    });
-}
 
 
-// Generate the PDF for Seller Presentation
+
+// Event Listener Setup
 function setupPDFDownloadListeners() {
     // Remove existing event listeners
     document.getElementById('downloadWholesalePDF').removeEventListener('click', generateWholesalePDF);
