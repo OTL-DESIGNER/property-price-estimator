@@ -205,6 +205,14 @@ h2 {
     transition: background-color 0.3s;
 }
 
+.account-button span {
+    margin-right: 8px; 
+}
+
+.account-button i {
+    margin-left: 4px; 
+}
+
 .account-button:hover {
     background-color: #f7f8f8;
 }
