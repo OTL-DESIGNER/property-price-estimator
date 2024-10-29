@@ -398,3 +398,10 @@ body {
     transform: translate(-50%, -50%);
     z-index: 9999;
 }
+
+.related-fields {
+    margin-top: 1rem;
+    padding-left: 1.5rem;
+    border-left: 3px solid #ccc;
+  }
+  

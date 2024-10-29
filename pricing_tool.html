@@ -37,7 +37,7 @@
         </div>
     </header>
     <div class="container mt-5">
-        <h2 class="text-center">Property Purchase Price Form</h2>
+        <h2 class="text-center">Property Purchase Estimation</h2>
 
 
   
@@ -78,7 +78,7 @@
         <div class="invalid-feedback">Please enter the agent's phone number.</div>
     </div>
 
-    <h4>Offer Details</h4>
+    <h4>Property Data</h4>
     <div class="mb-3">
         <label for="arv" class="form-label">ARV</label>
         <input type="number" class="form-control" id="arv" placeholder="Enter ARV" required>
@@ -89,18 +89,6 @@
         <input type="number" class="form-control" id="holdingPeriod" placeholder="Enter holding period in months" required>
         <div class="invalid-feedback">Please enter the holding period in months.</div>
     </div>
-    <div class="mb-3">
-        <label for="monthlyAssociationFees" class="form-label">Monthly Association Fees</label>
-        <input type="number" class="form-control" id="monthlyAssociationFees" placeholder="Enter monthly association fees" required>
-        <div class="invalid-feedback">Please enter the monthly association fees.</div>
-    </div>
-    <div class="mb-3">
-        <label for="annualTaxes" class="form-label">Annual Taxes</label>
-        <input type="number" class="form-control" id="annualTaxes" placeholder="Enter annual taxes" required>
-        <div class="invalid-feedback">Please enter the annual taxes.</div>
-    </div>
-
-    <h4>Property Information</h4>
     <div class="mb-3">
         <label for="propertyAddress" class="form-label">Property Address</label>
         <input type="text" class="form-control" id="propertyAddress" placeholder="Enter property address" required>
@@ -138,46 +126,110 @@
     </div>
 
     <h4>Property Features</h4>
-    <div class="mb-3">
-        <label class="form-label">Pool</label>
-        <select class="form-select" id="pool" required>
+    <div class="container">
+        <div class="mb-3">
+          <label class="form-label">Pool</label>
+          <select class="form-select" id="pool" required>
             <option value="no" selected>No</option>
             <option value="yes">Yes</option>
-        </select>
-        <div class="invalid-feedback">Please select if the property has a pool.</div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Equipment</label>
-        <select class="form-select" id="equipment" required>
-            <option value="no" selected>No</option>
-            <option value="yes">Yes</option>
-        </select>
-        <div class="invalid-feedback">Please select if the property has equipment.</div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Water Treatment</label>
-        <select class="form-select" id="waterTreatment" required>
-            <option value="no" selected>No</option>
-            <option value="yes">Yes</option>
-        </select>
-        <div class="invalid-feedback">Please select if the property has water treatment.</div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Tile</label>
-        <select class="form-select" id="tile" required>
-            <option value="no" selected>No</option>
-            <option value="yes">Yes</option>
-        </select>
-        <div class="invalid-feedback">Please select if the property has tile work needed.</div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Resurface</label>
-        <select class="form-select" id="resurface" required>
-            <option value="no" selected>No</option>
-            <option value="yes">Yes</option>
-        </select>
-        <div class="invalid-feedback">Please select if resurfacing is required.</div>
-    </div>
+          </select>
+          <div class="invalid-feedback">Please select if the property has a pool.</div>
+        </div>
+      
+        <!-- Grouped related fields -->
+        <div class="related-fields" id="related-fields" style="padding-left: 1.5rem; border-left: 3px solid #ccc;">
+          <div class="mb-3">
+            <label class="form-label">Equipment</label>
+            <select class="form-select related-select" id="equipment" required>
+              <option value="no" selected>No</option>
+              <option value="yes">Yes</option>
+            </select>
+            <div class="invalid-feedback">Please select if the property has equipment.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Water Treatment</label>
+            <select class="form-select related-select" id="waterTreatment" required>
+              <option value="no" selected>No</option>
+              <option value="yes">Yes</option>
+            </select>
+            <div class="invalid-feedback">Please select if the property has water treatment.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tile</label>
+            <select class="form-select related-select" id="tile" required>
+              <option value="no" selected>No</option>
+              <option value="yes">Yes</option>
+            </select>
+            <div class="invalid-feedback">Please select if the property has tile work needed.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Resurface</label>
+            <select class="form-select related-select" id="resurface" required>
+              <option value="no" selected>No</option>
+              <option value="yes">Yes</option>
+            </select>
+            <div class="invalid-feedback">Please select if resurfacing is required.</div>
+          </div>
+        </div>
+      
+        <div class="alert alert-danger mt-3 d-none" id="validation-error">
+          Please ensure related fields are set to "No" if "Pool" is set to "No".
+        </div>
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const poolSelect = document.getElementById('pool');
+          const relatedFields = document.getElementById('related-fields');
+          const relatedSelects = document.querySelectorAll('.related-select');
+          const validationError = document.getElementById('validation-error');
+      
+          function toggleRelatedFields() {
+            if (poolSelect.value === 'yes') {
+              relatedFields.style.display = 'block';
+              validationError.classList.add('d-none');
+            } else {
+              relatedFields.style.display = 'none';
+              validationError.classList.add('d-none');
+              // Reset all related fields to "No"
+              relatedSelects.forEach(select => select.value = 'no');
+            }
+          }
+      
+          function validateFields() {
+            if (poolSelect.value === 'no') {
+              let hasInvalidEntry = false;
+              relatedSelects.forEach(select => {
+                if (select.value === 'yes') {
+                  hasInvalidEntry = true;
+                }
+              });
+      
+              if (hasInvalidEntry) {
+                validationError.classList.remove('d-none');
+              } else {
+                validationError.classList.add('d-none');
+              }
+            } else {
+              validationError.classList.add('d-none');
+            }
+          }
+      
+          // Toggle related fields on load
+          toggleRelatedFields();
+      
+          // Listen for changes to the "Pool" selection
+          poolSelect.addEventListener('change', () => {
+            toggleRelatedFields();
+            validateFields();
+          });
+      
+          // Listen for changes to related fields to trigger validation
+          relatedSelects.forEach(select => {
+            select.addEventListener('change', validateFields);
+          });
+        });
+      </script>
+      
     <div class="mb-3">
         <label for="windows" class="form-label">Number of Windows</label>
         <input type="number" class="form-control" id="windows" placeholder="Enter number of windows" required>
@@ -272,6 +324,16 @@
         <div class="invalid-feedback">Please select if roof work is required.</div>
     </div>
     <div class="mb-3">
+        <label for="monthlyAssociationFees" class="form-label">Monthly Association Fees</label>
+        <input type="number" class="form-control" id="monthlyAssociationFees" placeholder="Enter monthly association fees">
+        <div class="invalid-feedback">Please enter the monthly association fees.</div>
+    </div>
+    <div class="mb-3">
+        <label for="annualTaxes" class="form-label">Annual Taxes</label>
+        <input type="number" class="form-control" id="annualTaxes" placeholder="Enter annual taxes">
+        <div class="invalid-feedback">Please enter the annual taxes.</div>
+    </div>
+    <div class="mb-3">
         <label class="form-label">Other</label>
         <select class="form-select" id="other" required>
             <option value="no" selected>No</option>
@@ -280,7 +342,7 @@
         <div class="invalid-feedback">Please select if any other work is required.</div>
     </div>
 
-    <h4>Additional Items</h4>
+    <h4>Additional Items (Optional)</h4>
     <div class="mb-3">
         <label for="customRenovationAmount1" class="form-label">Additional Item 1 Amount ($)</label>
         <input type="number" class="form-control" id="customRenovationAmount1" placeholder="Enter amount">
