@@ -44,6 +44,7 @@
 
 <!-- Data Capture Form -->
 <form id="propertyForm" class="needs-validation mt-5" novalidate>
+    <div class="container">
     <h4>Owner Information</h4>
     <div class="mb-3">
         <label for="ownerFirstName" class="form-label">Owner First Name</label>
@@ -60,7 +61,8 @@
         <input type="email" class="form-control" id="ownerEmail" placeholder="Enter owner email address" required>
         <div class="invalid-feedback">Please enter a valid owner's email address.</div>
     </div>
-
+</div>
+    <div class="container">
     <h4>Agent Information</h4>
     <div class="mb-3">
         <label for="agentFirstName" class="form-label">Agent First Name</label>
@@ -77,7 +79,8 @@
         <input type="tel" class="form-control" id="agentPhoneNumber" placeholder="Enter agent's phone number" required>
         <div class="invalid-feedback">Please enter the agent's phone number.</div>
     </div>
-
+</div>
+    <div class="container">
     <h4>Property Data</h4>
     <div class="mb-3">
         <label for="arv" class="form-label">ARV</label>
@@ -124,9 +127,10 @@
         <input type="number" class="form-control" id="bathrooms" placeholder="Enter number of bathrooms" required step="0.1">
         <div class="invalid-feedback">Please enter the number of bathrooms.</div>
     </div>
-
-    <h4>Property Features</h4>
+</div>
+  
 <div class="container">
+    <h4>Property Features</h4>
     <!-- Pool Section -->
     <div class="mb-3">
         <label class="form-label">Pool</label>
